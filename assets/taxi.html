@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Taxi Hailing Flowchart Animation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .flow-node {
+      transition: all 0.5s ease;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                  0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .flow-node.active {
+      animation: pulse 1.5s infinite, fadeIn 0.5s ease;
+      box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.3),
+                  0 10px 10px -5px rgba(59, 130, 246, 0.1);
+    }
+    .flow-node.completed {
+      background-color: #10B981;
+      color: white;
+    }
+    .flow-arrow {
+      position: relative;
+      height: 40px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .flow-arrow::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 12px solid #3B82F6;
+      animation: float 2s infinite;
+    }
+    .flow-arrow.active::after {
+      border-top-color: #10B981;
+    }
+    .taxi-car {
+      position: absolute;
+      transition: all 3s ease;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+    .map-container {
+      background-image: linear-gradient(to right, #E5E7EB, #F3F4F6);
+      position: relative;
+      overflow: hidden;
+    }
+    .road {
+      position: absolute;
+      background-color: #4B5563;
+      height: 8px;
+      border-radius: 4px;
+    }
+    .road-horizontal {
+      width: 100%;
+    }
+    .road-vertical {
+      height: 100%;
+      width: 8px;
+    }
+    .highlight-path {
+      background-color: #ef4444 !important;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .highlight-path.visible {
+      opacity: 1;
+    }
+    .map-label {
+      position: absolute;
+      z-index: 12;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: white;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(0,0,0,.12);
+      white-space: nowrap;
+    }
+    .map-label.pickup-label { top: 73%; left: 30%; color: #c2410c; }
+    .map-label.destination-label { top: 20%; left: 70%; color: #047857; }
+    .intersection {
+      position: absolute;
+      background-color: #4B5563;
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+    }
+    .pin {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .pin.pickup {
+      background-color: #ea0c0c; /* deep orange */
+      box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.3);
+    }
+    .pin.destination {
+      background-color: #11f20e;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center py-6">
+  <div class="w-full max-w-6xl px-4">
+    <h1 class="text-3xl font-bold text-center text-blue-600 mb-2">Taxi Hailing Journey</h1>
+    <p class="text-gray-600 text-center mb-6">
+      Follow the animated flow of your ride from request to destination
+    </p>
+
+    <div class="flex flex-wrap md:flex-nowrap gap-4 h-[calc(100vh-160px)]">
+      <!-- Map Container -->
+      <div class="map-container relative rounded-xl w-full md:w-[45%] h-full">
+        <!-- Base roads -->
+        <div class="road road-horizontal" style="top: 30%;"></div>
+        <div class="road road-horizontal" style="top: 70%;"></div>
+        <div class="road road-vertical" style="left: 30%;"></div>
+        <div class="road road-vertical" style="left: 70%;"></div>
+
+        <!-- Routes are hidden until their navigation stage begins -->
+        <div id="pickupRoute" class="road road-horizontal highlight-path" style="top: 70%; left: 10%; width: 20%;"></div>
+        <div id="destinationRouteVertical" class="road road-vertical highlight-path" style="left: 30%; top: 30%; height: 40%;"></div>
+        <div id="destinationRouteHorizontal" class="road road-horizontal highlight-path" style="top: 30%; left: 30%; width: 40%;"></div>
+
+        <!-- Intersections -->
+        <div class="intersection" style="top: 30%; left: 30%;"></div>
+        <div class="intersection" style="top: 30%; left: 70%;"></div>
+        <div class="intersection" style="top: 70%; left: 30%;"></div>
+        <div class="intersection" style="top: 70%; left: 70%;"></div>
+
+        <!-- Pins -->
+        <div class="pin pickup" style="top: 70%; left: 30%;"></div>
+        <div class="pin destination" style="top: 30%; left: 70%;"></div>
+        <div class="map-label pickup-label">PICKUP</div>
+        <div class="map-label destination-label">DESTINATION</div>
+
+        <!-- Taxi -->
+        <div class="taxi-car text-3xl" style="left: 10%; top: 70%;">
+          <i class="fas fa-taxi text-purple-600"></i>
+        </div>
+      </div>
+
+      <!-- Flow Container -->
+      <div class="flow-container bg-white rounded-xl shadow-lg overflow-y-auto w-full md:w-[55%] h-full p-4">
+        <div class="flow-step mb-4">
+          <div id="node1" class="flow-node bg-blue-100 text-blue-800 rounded-lg p-4 text-center">
+            <div class="flex justify-center mb-2"><i class="fas fa-map-marker-alt text-2xl"></i></div>
+            <h3 class="font-semibold">On taxi app of choice e.g Bolt, User inputs location and destination</h3>
+          </div>
+          <div id="arrow1" class="flow-arrow"></div>
+        </div>
+        <div class="flow-step mb-4">
+          <div id="node2" class="flow-node bg-blue-100 text-blue-800 rounded-lg p-4 text-center">
+            <div class="flex justify-center mb-2"><i class="fas fa-search text-2xl"></i></div>
+            <h3 class="font-semibold">System searches for nearby drivers</h3>
+          </div>
+          <div id="arrow2" class="flow-arrow"></div>
+        </div>
+        <div class="flow-step mb-4">
+          <div id="node3" class="flow-node bg-blue-100 text-blue-800 rounded-lg p-4 text-center">
+            <div class="flex justify-center mb-2"><i class="fas fa-user-plus text-2xl"></i></div>
+            <h3 class="font-semibold">System assigns a driver</h3>
+          </div>
+          <div id="arrow3" class="flow-arrow"></div>
+        </div>
+        <div class="flow-step mb-4">
+          <div id="node4" class="flow-node bg-blue-100 text-blue-800 rounded-lg p-4 text-center">
+            <div class="flex justify-center mb-2"><i class="fas fa-route text-2xl"></i></div>
+            <h3 class="font-semibold">Stage 1: Navigate from driver location to user pickup</h3>
+          </div>
+          <div id="arrow4" class="flow-arrow"></div>
+        </div>
+        <div class="flow-step mb-4">
+          <div id="node5" class="flow-node bg-blue-100 text-blue-800 rounded-lg p-4 text-center">
+            <div class="flex justify-center mb-2"><i class="fas fa-user-check text-2xl"></i></div>
+            <h3 class="font-semibold">Driver picks up rider</h3>
+          </div>
+          <div id="arrow5" class="flow-arrow"></div>
+        </div>
+        <div class="flow-step mb-4">
+          <div id="node6" class="flow-node bg-blue-100 text-blue-800 rounded-lg p-4 text-center">
+            <div class="flex justify-center mb-2"><i class="fas fa-road text-2xl"></i></div>
+            <h3 class="font-semibold">Stage 2: Navigate from pickup to passenger destination</h3>
+          </div>
+          <div id="arrow6" class="flow-arrow"></div>
+        </div>
+        <div class="flow-step mb-4">
+          <div id="node7" class="flow-node bg-blue-100 text-blue-800 rounded-lg p-4 text-center">
+            <div class="flex justify-center mb-2"><i class="fas fa-receipt text-2xl"></i></div>
+            <h3 class="font-semibold">Trip details and drop-off time provided</h3>
+          </div>
+          <div id="arrow7" class="flow-arrow"></div>
+        </div>
+        <div class="flow-step">
+          <div id="node8" class="flow-node bg-blue-100 text-blue-800 rounded-lg p-4 text-center">
+            <div class="flex justify-center mb-2"><i class="fas fa-flag-checkered text-2xl"></i></div>
+            <h3 class="font-semibold">Ride completed</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start / Restart Button -->
+    <div class="fixed top-4 right-4 z-20">
+      <button id="startBtn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full transition duration-300 flex items-center shadow">
+        <i class="fas fa-play mr-2"></i> Start
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const nodes = [
+        'node1', 'node2', 'node3', 'node4',
+        'node5', 'node6', 'node7', 'node8'
+      ].map(id => document.getElementById(id));
+
+      const arrows = [
+        'arrow1', 'arrow2', 'arrow3', 'arrow4',
+        'arrow5', 'arrow6', 'arrow7'
+      ].map(id => document.getElementById(id));
+
+      const taxi = document.querySelector('.taxi-car');
+      const startBtn = document.getElementById('startBtn');
+      const pickupRoute = document.getElementById('pickupRoute');
+      const destinationRouteVertical = document.getElementById('destinationRouteVertical');
+      const destinationRouteHorizontal = document.getElementById('destinationRouteHorizontal');
+
+      const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+      const positions = {
+        driver: { left: '10%', top: '70%' },
+        pickup: { left: '30%', top: '70%' },
+        junction: { left: '30%', top: '30%' },
+        destination: { left: '70%', top: '30%' }
+      };
+
+      function moveTaxi(position) {
+        taxi.style.left = position.left;
+        taxi.style.top = position.top;
+      }
+
+      function hideRoutes() {
+        pickupRoute.classList.remove('visible');
+        destinationRouteVertical.classList.remove('visible');
+        destinationRouteHorizontal.classList.remove('visible');
+      }
+
+      function resetFlow() {
+        nodes.forEach(node => node.classList.remove('active', 'completed'));
+        arrows.forEach(arrow => arrow.classList.remove('active'));
+        hideRoutes();
+        taxi.innerHTML = '<i class="fas fa-taxi text-purple-600"></i>';
+        moveTaxi(positions.driver);
+        startBtn.disabled = false;
+        startBtn.innerHTML = '<i class="fas fa-play mr-2"></i> Start';
+      }
+
+      async function activateStep(index) {
+        if (index > 0) {
+          nodes[index - 1].classList.remove('active');
+          nodes[index - 1].classList.add('completed');
+          arrows[index - 1].classList.add('active');
+        }
+
+        nodes[index].classList.add('active');
+        nodes[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        await pause(2200);
+      }
+
+      async function animateFlow() {
+        resetFlow();
+        startBtn.disabled = true;
+        startBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Journey in progress';
+
+        // Request and driver matching.
+        await activateStep(0);
+        await activateStep(1);
+        await activateStep(2);
+
+        // STAGE 1: Driver travels to the user's pickup location.
+        await activateStep(3);
+        pickupRoute.classList.add('visible');
+        await pause(350);
+        moveTaxi(positions.pickup);
+        await pause(3300);
+
+        // Pickup is confirmed before destination navigation begins.
+        await activateStep(4);
+        taxi.innerHTML = '<i class="fas fa-taxi text-purple-600"></i><i class="fas fa-user ml-1 text-blue-500"></i>';
+        hideRoutes();
+        await pause(700);
+
+        // STAGE 2: Navigation switches to the passenger's destination.
+        await activateStep(5);
+        destinationRouteVertical.classList.add('visible');
+        destinationRouteHorizontal.classList.add('visible');
+        await pause(350);
+        moveTaxi(positions.junction);
+        await pause(1700);
+        moveTaxi(positions.destination);
+        await pause(2200);
+
+        // Drop-off and completion.
+        await activateStep(6);
+        await activateStep(7);
+
+        nodes[7].classList.remove('active');
+        nodes[7].classList.add('completed');
+        taxi.innerHTML = '<i class="fas fa-taxi text-purple-600"></i><i class="fas fa-check-circle ml-1 text-green-500"></i>';
+        startBtn.disabled = false;
+        startBtn.innerHTML = '<i class="fas fa-redo mr-2"></i> Restart';
+      }
+
+      // Keep the map and flow idle until the user starts the demonstration.
+      resetFlow();
+
+      startBtn.addEventListener('click', function () {
+        if (!startBtn.disabled) animateFlow();
+      });
+    });
+  </script>
+</body>
+</html>

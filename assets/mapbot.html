@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>MapBot</title>
+<style>
+.mapbot {
+  font-family: Arial, sans-serif;
+  max-width: 950px;
+  margin: 20px auto;
+  color: #34443c;
+}
+
+.mapbot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.mapbot-header h3 { margin: 0; }
+
+.mapbot-north {
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.mapbot-north span {
+  display: block;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.mapbot-frame {
+  border: 1px solid #c7cfc3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #e7eee4;
+}
+
+.mapbot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mapbot-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.mapbot-controls button {
+  background: #355e4b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 17px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.mapbot-controls button:hover {
+  background: #244735;
+}
+
+.mapbot-controls button:active {
+  transform: scale(.96);
+}
+
+.mapbot-status {
+  background: #eef3eb;
+  border-left: 4px solid #527d60;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 4px;
+}
+
+.mapbot-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  padding: 12px 0;
+}
+
+.mapbot-legend span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mapbot-note {
+  font-size: 11px;
+  color: #777;
+  margin-top: 8px;
+}
+
+@media(max-width:600px) {
+  .mapbot-controls button {
+    padding: 9px 12px;
+  }
+}
+</style>
+<body>
+  <div class="mapbot">
+
+    <div class="mapbot-header">
+      <div>
+        <h3>Illustrative Map of Nigeria</h3>
+      </div>
+      <div class="mapbot-north">
+        <span>↑</span>N
+      </div>
+    </div>
+
+    <div class="mapbot-frame">
+      <svg id="mapbot-map"
+          viewBox="0 0 900 590"
+          role="img"
+          aria-label="Schematic map of Nigeria showing geographical coordinates, roads, landmarks and a movable student marker">
+
+        <defs>
+          <pattern id="mapbot-graticule"
+                  width="53.85"
+                  height="50"
+                  patternUnits="userSpaceOnUse">
+            <path d="M 53.85 0 L 0 0 0 50"
+                  fill="none"
+                  stroke="#829486"
+                  stroke-width="0.8"
+                  stroke-dasharray="3 5"
+                  opacity=".55"/>
+          </pattern>
+
+          <filter id="mapbot-shadow">
+            <feDropShadow dx="0" dy="2" stdDeviation="2"
+                          flood-opacity=".25"/>
+          </filter>
+        </defs>
+
+        <!-- Surrounding geographical area -->
+        <rect x="60" y="40" width="700" height="500"
+              fill="#e6eee5"/>
+
+        <!-- Schematic Nigeria landmass -->
+        <path id="mapbot-land"
+              fill="#d9e2c9"
+              stroke="#71876e"
+              stroke-width="2"/>
+
+        <!-- Vegetation and open spaces -->
+        <path d="M 170 330 Q 220 290 280 325
+                Q 310 370 260 405
+                Q 200 405 170 330"
+              fill="#b7c99e" opacity=".65"/>
+
+        <path d="M 470 180 Q 530 145 570 195
+                Q 550 250 490 240 Z"
+              fill="#b7c99e" opacity=".65"/>
+
+        <path d="M 390 370 Q 450 340 490 380
+                Q 460 425 400 415 Z"
+              fill="#b7c99e" opacity=".65"/>
+
+        <!-- Coordinate graticule -->
+        <rect x="60" y="40" width="700" height="500"
+              fill="url(#mapbot-graticule)"/>
+
+        <g id="mapbot-gridlines"></g>
+        <g id="mapbot-labels"></g>
+
+        <!-- Rivers -->
+        <g fill="none" stroke="#75aeca"
+          stroke-width="3" opacity=".9">
+          <path id="mapbot-river1"/>
+          <path id="mapbot-river2"/>
+        </g>
+
+        <!-- Main roads -->
+        <g fill="none" stroke="#c28d59"
+          stroke-width="5" stroke-linecap="round">
+          <path id="mapbot-road1"/>
+          <path id="mapbot-road2"/>
+          <path id="mapbot-road3"/>
+        </g>
+
+        <!-- Secondary roads -->
+        <g fill="none" stroke="#f8f2df"
+          stroke-width="2.5" stroke-linecap="round">
+          <path id="mapbot-road4"/>
+          <path id="mapbot-road5"/>
+        </g>
+
+        <!-- Settlement/building footprints -->
+        <g id="mapbot-buildings"
+          fill="#9d8d78"
+          stroke="#786a59"
+          stroke-width="1">
+        </g>
+
+        <!-- Geographical landmarks -->
+        <g id="mapbot-landmarks"></g>
+
+        <!-- Movable student marker -->
+        <g id="mapbot-player" filter="url(#mapbot-shadow)">
+          <circle r="14" fill="#ffffff"
+                  stroke="#245e9b" stroke-width="3"/>
+          <circle r="7" fill="#246cb0"/>
+          <text x="0" y="-22"
+                text-anchor="middle"
+                font-size="13"
+                font-weight="bold"
+                fill="#174a78">YOU</text>
+        </g>
+
+        <!-- Map information -->
+        <text x="410" y="570"
+              text-anchor="middle"
+              font-size="12"
+              fill="#66786a">
+          SCHEMATIC GEOGRAPHICAL MAP • NOT TO SCALE
+        </text>
+
+      </svg>
+    </div>
+
+    <div class="mapbot-controls">
+      <button type="button" onclick="mapbotMove(0,0.25)">
+        ↑ North
+      </button>
+      <button type="button" onclick="mapbotMove(-0.25,0)">
+        ← West
+      </button>
+      <button type="button" onclick="mapbotMove(0,-0.25)">
+        ↓ South
+      </button>
+      <button type="button" onclick="mapbotMove(0.25,0)">
+        East →
+      </button>
+      <button type="button" onclick="mapbotReset()">
+        Reset
+      </button>
+    </div>
+
+    <div class="mapbot-status" id="mapbot-status">
+      Current position: 3.00°E, 6.00°N
+    </div>
+
+    <div class="mapbot-legend">
+      <span>🔵 Student</span>
+      <span>🎓 University</span>
+      <span>🏛 Capital city</span>
+      <span>🏙 Settlement</span>
+      <span>🌳 Vegetation</span>
+      <span>〰 River</span>
+      <span>━ Road</span>
+    </div>
+
+    <div class="mapbot-note">
+      Coordinates are geographic longitude and latitude. The map outline
+      and background features are illustrative, not authoritative survey data.
+    </div>
+
+  </div>
+
+  <script>
+  (function() {
+
+    const svgNS = "http://www.w3.org/2000/svg";
+
+    const minLon = 2;
+    const maxLon = 15;
+    const minLat = 4;
+    const maxLat = 14;
+
+    const left = 60;
+    const top = 40;
+    const width = 700;
+    const height = 500;
+
+    // Convert geographical coordinates to map positions.
+    function project(lon, lat) {
+      return {
+        x: left + (lon-minLon)/ (maxLon-minLon) * width,
+        y: top + (maxLat-lat)/(maxLat-minLat) * height
+      };
+    }
+
+    function makePath(points) {
+      return points.map((p,i) => {
+        const v = project(p[0],p[1]);
+        return (i===0 ? "M " : "L ") + v.x + " " + v.y;
+      }).join(" ");
+    }
+
+    function element(tag, attributes, parent) {
+      const el = document.createElementNS(svgNS,tag);
+      for(const key in attributes) {
+        el.setAttribute(key,attributes[key]);
+      }
+      parent.appendChild(el);
+      return el;
+    }
+
+    // Illustrative outline of Nigeria.
+    const nigeria = [
+      [2.7,6.5],[3.2,7.0],[4.0,7.5],
+      [4.8,7.4],[5.6,8.0],[6.5,8.2],
+      [7.4,9.0],[8.1,10.0],[8.8,11.1],
+      [9.7,12.2],[10.8,13.2],[12.2,13.8],
+      [13.5,13.6],[14.2,12.8],[14.4,11.7],
+      [13.8,10.8],[13.5,9.8],[12.8,8.8],
+      [11.7,7.8],[10.6,6.9],[9.4,6.1],
+      [8.2,5.5],[7.0,4.8],[5.8,4.4],
+      [4.7,4.6],[3.8,5.0],[3.1,5.7]
+    ];
+
+    document.getElementById("mapbot-land")
+      .setAttribute("d",makePath(nigeria)+" Z");
+
+    // Draw coordinate lines.
+    const grid = document.getElementById("mapbot-gridlines");
+    const labels = document.getElementById("mapbot-labels");
+
+    for(let lon=2;lon<=15;lon++) {
+      const p=project(lon,4);
+      element("line",{
+        x1:p.x,y1:top,x2:p.x,y2:top+height,
+        stroke:"#8d9b8c",
+        "stroke-width":0.7,
+        opacity:0.55
+      },grid);
+
+      element("text",{
+        x:p.x,y:top+height+17,
+        "text-anchor":"middle",
+        "font-size":11,
+        fill:"#52675b"
+      },labels).textContent=lon+"°E";
+    }
+
+    for(let lat=4;lat<=14;lat++) {
+      const p=project(2,lat);
+      element("line",{
+        x1:left,y1:p.y,x2:left+width,y2:p.y,
+        stroke:"#8d9b8c",
+        "stroke-width":0.7,
+        opacity:0.55
+      },grid);
+
+      element("text",{
+        x:left-9,y:p.y+4,
+        "text-anchor":"end",
+        "font-size":11,
+        fill:"#52675b"
+      },labels).textContent=lat+"°N";
+    }
+
+    // Rivers.
+    const river1 = [
+      [5.2,8.2],[5.8,7.5],[6.3,7.0],
+      [6.7,6.3],[7.0,5.5],[7.2,4.8]
+    ];
+
+    const river2 = [
+      [8.1,10.0],[7.7,9.4],[7.0,9.0],
+      [6.5,8.5],[6.3,8.0]
+    ];
+
+    document.getElementById("mapbot-river1")
+      .setAttribute("d",makePath(river1));
+
+    document.getElementById("mapbot-river2")
+      .setAttribute("d",makePath(river2));
+
+    // Roads.
+    const roads = {
+      "mapbot-road1":[[3.4,6.5],[5,7],[7.49,9.06],[8.5,12]],
+      "mapbot-road2":[[3.4,6.5],[5.5,5.5],[7.0,4.8]],
+      "mapbot-road3":[[7.49,9.06],[10,9],[12.5,11]],
+      "mapbot-road4":[[3.4,6.5],[4.5,8],[5.8,9]],
+      "mapbot-road5":[[7.49,9.06],[8.2,10.5],[8.5,12]]
+    };
+
+    for(const id in roads) {
+      document.getElementById(id)
+        .setAttribute("d",makePath(roads[id]));
+    }
+
+    // Illustrative urban building footprints around Lagos.
+    const buildings = document.getElementById("mapbot-buildings");
+
+    const buildingPositions = [
+      [3.1,6.2],[3.2,6.25],[3.3,6.15],
+      [3.5,6.3],[3.55,6.45],[3.2,6.55],
+      [3.4,6.7],[3.65,6.6],[3.0,6.4],
+      [3.25,6.8],[3.7,6.25],[3.8,6.5]
+    ];
+
+    buildingPositions.forEach((p,i)=>{
+      const v=project(p[0],p[1]);
+      element("rect",{
+        x:v.x-5-(i%3),
+        y:v.y-4,
+        width:9+(i%3),
+        height:7,
+        rx:1,
+        transform:"rotate("+((i*17)%40)+" "+v.x+" "+v.y+")"
+      },buildings);
+    });
+
+    // Map landmarks with approximate geographical positions.
+    const landmarks = [
+      {lon:2.8,lat:6.0,name:"Home",symbol:"⌂",color:"#956f49"},
+      {lon:3.4,lat:6.5,name:"UNILAG",symbol:"🎓",color:"#356b9b"},
+      {lon:7.49,lat:9.06,name:"Abuja",symbol:"🏛",color:"#986c3f"},
+      {lon:8.52,lat:12.0,name:"Kano",symbol:"🏙",color:"#986c3f"},
+      {lon:7.0,lat:4.8,name:"Port Harcourt",symbol:"🏙",color:"#986c3f"}
+    ];
+
+    const landmarkLayer =
+      document.getElementById("mapbot-landmarks");
+
+    landmarks.forEach(lm=>{
+      const p=project(lm.lon,lm.lat);
+      const g=element("g",{},landmarkLayer);
+
+      element("circle",{
+        cx:p.x,cy:p.y,r:11,
+        fill:"#fff",
+        stroke:lm.color,
+        "stroke-width":2
+      },g);
+
+      element("text",{
+        x:p.x,y:p.y+4,
+        "text-anchor":"middle",
+        "font-size":12
+      },g).textContent=lm.symbol;
+
+      element("text",{
+        x:p.x+14,y:p.y-12,
+        "font-size":12,
+        "font-weight":"bold",
+        fill:"#374b3d",
+        stroke:"#e6eee5",
+        "stroke-width":3,
+        "paint-order":"stroke"
+      },g).textContent=lm.name;
+    });
+
+    // Student's starting position.
+    let studentLon=3.0;
+    let studentLat=6.0;
+
+    const player=document.getElementById("mapbot-player");
+    const status=document.getElementById("mapbot-status");
+
+    function update() {
+      const p=project(studentLon,studentLat);
+
+      player.setAttribute(
+        "transform",
+        "translate("+p.x+" "+p.y+")"
+      );
+
+      status.textContent=
+        "Current position: "+
+        studentLon.toFixed(2)+"°E, "+
+        studentLat.toFixed(2)+"°N";
+    }
+
+    window.mapbotMove=function(dLon,dLat) {
+      studentLon=Math.max(minLon,
+        Math.min(maxLon,studentLon+dLon));
+
+      studentLat=Math.max(minLat,
+        Math.min(maxLat,studentLat+dLat));
+
+      update();
+    };
+
+    window.mapbotReset=function() {
+      studentLon=3.0;
+      studentLat=6.0;
+      update();
+    };
+
+    update();
+
+  })();
+  </script>
+</body>
+</html>

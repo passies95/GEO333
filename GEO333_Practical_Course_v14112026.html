@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="GEO333_Practical_Course_v14112026_files/libs/clipboard/clipboard.min.js"></script>
+<script src="GEO333_Practical_Course_v14112026_files/libs/quarto-html/tabby.min.js"></script>
+<script src="GEO333_Practical_Course_v14112026_files/libs/quarto-html/popper.min.js"></script>
+<script src="GEO333_Practical_Course_v14112026_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="GEO333_Practical_Course_v14112026_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="GEO333_Practical_Course_v14112026_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="GEO333_Practical_Course_v14112026_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.42">
+
+  <meta name="author" content="Prof.&nbsp;Akintuyi Akinlabi ; Pascal Ogola">
+  <meta name="dcterms.date" content="2026-11-01">
+  <title>GEO 333: GIS Programming and Database Management Systems</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="GEO333_Practical_Course_v14112026_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="GEO333_Practical_Course_v14112026_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="GEO333_Practical_Course_v14112026_files/libs/revealjs/dist/theme/quarto-e36720bfb06f5c8c59392c685c89c229.css">
+  <link href="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">GEO 333: GIS Programming and Database Management Systems</h1>
+  <p class="subtitle">Level 300 12-week practical teaching guide</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Prof.&nbsp;Akintuyi Akinlabi ; Pascal Ogola 
+</div>
+</div>
+</div>
+
+  <p class="date">2026-11-01</p>
+</section>
+<section id="course-overview" class="title-slide slide level1 center">
+<h1>Course overview</h1>
+<ul>
+<li>This practical introduces Geography students to programming to equip them with the skills and competencies in:</li>
+</ul>
+<ol type="1">
+<li>Formulating a geographical problem and translating it into a GIS workflow.</li>
+<li>Understanding fundamental programming concepts and writing simple Python programs</li>
+<li>Using Python libraries to acquire and process spatial data.</li>
+<li>Designing a simple relational spatial database and explain its structure.</li>
+<li>Creating and querying a PostgreSQL/PostGIS database using SQL.</li>
+<li>Applying select geoprocessing and spatial analysis methods</li>
+<li>Developing a collaborative interactive 2D campus map using Python-based tools and documenting the procedures</li>
+</ol>
+</section>
+
+<section>
+<section id="introduction-to-gis-programming" class="title-slide slide level1 center">
+<h1>Introduction to GIS Programming</h1>
+<ul>
+<li>GIS is used in virtually every sector of society including Transportation, Health, Agriculture, Urban Planning, Environmental Management, and many more.</li>
+<li>GIS programming is the process of using a programming language to automate GIS operations, manage spatial data and develop GIS applications.</li>
+</ul>
+<p><code>Systems: Many components working together through a set of rules/ procedures to achieve a common goal i.e. of linking what we know to the where.</code></p>
+<!-- ![](assets\GIS_components.png) -->
+
+<img src="assets\GIS_components.png" id="fullscreen-img" style="max-width: 100%; cursor: pointer;" onclick="openFullscreen(this)" class="r-stretch"><ul>
+<li>It is a core component of a GIS system</li>
+<li>It provides procedures/steps, tools and libraries for the development of GIS applications and the automation of GIS workflows.</li>
+</ul>
+</section>
+<section id="consider-taxi-hailing-example-below" class="slide level2">
+<h2>Consider Taxi hailing example below</h2>
+<iframe src="assets/taxi.html" width="100%" height="500px" style="border:none;">
+</iframe>
+</section>
+<section id="reflection" class="slide level2">
+<h2>Reflection</h2>
+<ul>
+<li>What happens when a command is omitted?</li>
+<li>Why is order important?</li>
+<li>How does this resemble a GIS workflows?</li>
+</ul>
+<iframe src="assets/mapbot.html" width="100%" height="800px" style="border:none;">
+</iframe>
+<!-- # Technology and collaboration framework -->
+</section></section>
+<section id="core-software" class="title-slide slide level1 center">
+<h1>Core software</h1>
+<p>The following tools will be used in this course:</p>
+<table class="caption-top" style="width:97%;">
+<colgroup>
+<col style="width: 48%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tool</th>
+<th style="text-align: left;">Role in the course</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Google Colab</td>
+<td style="text-align: left;">Browser-based environment for introductory Python programming Spatial data viewing, digitising, editing, quality checks and spatial analysis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Python</td>
+<td style="text-align: left;">full spectrum scripting language for Programming foundations, data processing and GIS automation. This will be used in Colab and VS Code, and later in the QGIS Python Console</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VS Code</td>
+<td style="text-align: left;">Writing and running Python scripts</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PostgreSQL/PostGIS</td>
+<td style="text-align: left;">Relational and spatial database management</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Folium</td>
+<td style="text-align: left;">Producing leaflet based interactive web maps using Python</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GitHub</td>
+<td style="text-align: left;">Code versioning and contribution history</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Google Drive</td>
+<td style="text-align: left;">Shared project files and approved data exchange</td>
+</tr>
+</tbody>
+</table>
+<p>JavaScript and HTML may be introduced briefly to explain how browser-based maps work. Students are not expected to develop a JavaScript application.</p>
+</section>
+
+<section>
+<section id="semester-project-specification" class="title-slide slide level1 center">
+<h1>Semester project specification</h1>
+
+</section>
+<section id="project-scenario" class="slide level2">
+<h2>Project scenario</h2>
+<p>The University of Lagos requires an accessible campus information map through which students, visitors and other users can identify buildings, roads, departments and selected facilities.What is the minimum application functionality that will satisfy the needs of the users?</p>
+</section>
+<section id="minimum-application-functions" class="slide level2">
+<h2>Minimum application functions</h2>
+<p>The final application should:</p>
+<ul>
+<li>Display the campus boundary;</li>
+<li>Display building footprints, roads and selected facilities based on functional categories e.g bus station, library, cafeteria, sports complex, etc.;</li>
+<li>Allow users to click a building and view its attributes including name, category, number of floors and associated departments, photo</li>
+<li>Provide a basic search based on the variable such as department, faculty, building name or facility type or function type e.g Electric Bus station</li>
+<li>Allow users to switch map layers on and off.</li>
+<li>Present a clear title, legend or layer key, and source information</li>
+<li>Route finding. Allow the user to input their current location or autimatically pick their location and find routes based on walkable paths, transport options within the universtiy</li>
+</ul>
+</section>
+<section id="suggested-campus-data-model" class="slide level2">
+<h2>Suggested campus data model</h2>
+<p>Designing the campus database requires identifying the spatial and non-spatial entities, their attributes and relationships. The following is a suggested data model:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Geometry</th>
+<th>Important fields</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>buildings</code></td>
+<td>Polygon</td>
+<td><code>building_id</code> (unique), <code>building_name</code>, <code>category</code>, <code>description</code></td>
+</tr>
+<tr class="even">
+<td><code>building_entrances</code></td>
+<td>Point</td>
+<td><code>entrance_id</code> (unique), <code>building_id</code> (foreign key), <code>entrance_name</code>, <code>entrance_type</code>, <code>is_public</code>, <code>accessibility_note</code></td>
+</tr>
+<tr class="odd">
+<td><code>pedestrian_paths</code></td>
+<td>Line</td>
+<td><code>path_id</code>, <code>path_type</code>, <code>surface</code>, <code>accessible</code>, <code>notes</code></td>
+</tr>
+<tr class="even">
+<td><code>roads</code></td>
+<td>Line</td>
+<td><code>road_id</code>, <code>road_name</code>, <code>road_type</code></td>
+</tr>
+<tr class="odd">
+<td><code>facilities</code></td>
+<td>Point or polygon</td>
+<td><code>facility_id</code>, <code>facility_name</code>, <code>facility_type</code></td>
+</tr>
+</tbody>
+</table>
+<p>Digitise entrance points at the actual pedestrian-access location, not at the building centroid. Where a building has several entrances, map each one separately and link all of them to the same <code>building_id</code>. Record whether an entrance is public, staff-only, restricted or accessible where that information can be verified.</p>
+<p>For routing, pedestrian paths should form a connected network. Entrance points should be connected or snapped to the appropriate pedestrian path, using a documented tolerance and checking the result visually.</p>
+</section></section>
+<section>
+<section id="project-orientation-and-programming-foundations" class="title-slide slide level1 center">
+<h1>Project orientation and programming foundations</h1>
+
+</section>
+<section id="project-orientation-problem-formulation-and-collaborative-workspace" class="slide level2">
+<h2>Project orientation, problem formulation and collaborative workspace</h2>
+<p><strong>Concepts</strong></p>
+<ul>
+<li>GIS programming and its role in geographical problem-solving.</li>
+<li>Difference between spatial and non-spatial information.</li>
+<li>Components of a GIS application: data, database, processing, interface and user.</li>
+</ul>
+<p><strong>Demonstration: starting Python in Google Colab</strong></p>
+<p>Google Colab is the introductory programming environment for Weeks 2 and 3. It reduces setup problems and allows students to concentrate on Python syntax and computational thinking.</p>
+<ol type="1">
+<li>Open a browser and navigate to <code>https://colab.research.google.com/</code>.</li>
+<li>Sign in with the student’s Google account if prompted.</li>
+<li>Select <strong>New notebook</strong>. A notebook contains cells that can be run independently. Further, code execution is provided by a hosted runtime.</li>
+</ol>
+
+<!-- {{< embed Colab_Notebooks\GEO333_Colab_Introduction.ipynb >}} -->
+<img data-src="assets\colab.png" class="r-stretch"><ol start="4" type="1">
+<li><p>Rename the notebook <code>GEO333_Introduction</code>.</p></li>
+<li><p>In the first code cell, enter and run:</p>
+<div id="344554e6" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="co"># First Python instruction</span></span>
+<span id="cb1-2"><a href=""></a>course_code <span class="op">=</span> <span class="st">"GEO 333"</span></span>
+<span id="cb1-3"><a href=""></a>course_name <span class="op">=</span> <span class="st">"Collaborative GIS Programming and Application Development"</span></span>
+<span id="cb1-4"><a href=""></a><span class="bu">print</span>(course_code)</span>
+<span id="cb1-5"><a href=""></a><span class="bu">print</span>(course_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GEO 333
+Collaborative GIS Programming and Application Development</code></pre>
+</div>
+</div></li>
+<li><p>Ask students to change the text, run the cell again and observe the output. Introduce the distinction between code, execution and output.</p></li>
+<li><p>Demonstrate adding a text cell for notes and saving the notebook in Google Drive. Explain that notebooks are useful learning records, while <code>.py</code> files will later be used for scripts.</p></li>
+<li><p>Explain that Colab is suitable for learning general Python, but it does not automatically provide the QGIS Python API or a connection to the student’s desktop QGIS project.</p></li>
+</ol>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>What makes the campus application a GIS rather than an ordinary webpage?</li>
+<li>Which information is spatial and which is non-spatial?</li>
+<li>Why should a group agree on data structures and file names before working independently?</li>
+</ul>
+</section>
+<section id="introduction-to-python-and-computational-thinking" class="slide level2">
+<h2>Introduction to Python and computational thinking</h2>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Explain what a program and an algorithm are.</li>
+<li>Understand statements, expressions, indentation, comments and output.</li>
+<li>Create variables and identify basic data types.</li>
+<li>Distinguish assignment (<code>=</code>) from comparison (<code>==</code>).</li>
+<li>Use arithmetic, comparison and logical operators.</li>
+<li>Explain strings, integers, floats and Boolean values.</li>
+<li>Read simple error messages and correct basic syntax mistakes.</li>
+</ul>
+<p><strong>Concepts</strong></p>
+<ul>
+<li>Algorithm and program.</li>
+<li>Python interpreter.</li>
+<li>Statements and indentation.</li>
+<li>Comments.</li>
+<li>Variables.</li>
+<li>Strings, integers, floats and Boolean values.</li>
+<li>Arithmetic and comparison operators.</li>
+<li>Input and output.</li>
+</ul>
+<p><strong>Demonstration</strong></p>
+<p>During this lesson we will introduce a simple algorithm to:</p>
+<ol type="1">
+<li>Store a building name.</li>
+<li>Store its number of floors.</li>
+<li>Store its building category.</li>
+<li>Display the information.</li>
+</ol>
+<div id="7511bccb" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="co"># Information about a campus building</span></span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a>building_name <span class="op">=</span> <span class="st">"Faculty of Arts"</span></span>
+<span id="cb3-4"><a href=""></a>number_of_floors <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb3-5"><a href=""></a>building_type <span class="op">=</span> <span class="st">"Academic"</span></span>
+<span id="cb3-6"><a href=""></a></span>
+<span id="cb3-7"><a href=""></a><span class="bu">print</span>(building_name)</span>
+<span id="cb3-8"><a href=""></a><span class="bu">print</span>(number_of_floors)</span>
+<span id="cb3-9"><a href=""></a><span class="bu">print</span>(building_type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Faculty of Arts
+4
+Academic</code></pre>
+</div>
+</div>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>What is the difference between a variable and a value?</li>
+<li>Why is a building name stored as text while its number of floors is stored as an integer?</li>
+<li>What happens if a number is accidentally stored as text?</li>
+</ul>
+<p><strong>Guided exercises</strong></p>
+<ol type="1">
+<li>Create variables for a building name, category and number of floors.</li>
+<li>Store a building area as a decimal number.</li>
+<li>Display a sentence combining the variables.</li>
+<li>Compare two building areas using <code>&gt;</code> and <code>&lt;</code>.</li>
+<li>Use <code>input()</code> to ask for a building name.</li>
+</ol>
+<p><strong>Group Assignment</strong></p>
+<p>Each student writes a short program describing one campus building. The group combines the examples into a small building-information exercise.</p>
+<p><strong>Expected output</strong></p>
+<p>A Python file containing variables, data types, simple operations and output statements.</p>
+<h3 id="python-syntax-reference">Python syntax reference</h3>
+<p>The following python structures and examples are used throughout Weeks 2–4. Students should be able to identify and explain them.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Structure</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Comment</td>
+<td>Note for a human reader; not executed</td>
+<td><code># campus building record</code></td>
+</tr>
+<tr class="even">
+<td>Statement</td>
+<td>An instruction executed by Python</td>
+<td><code>print(name)</code></td>
+</tr>
+<tr class="odd">
+<td>Variable assignment</td>
+<td>Stores a value under a name</td>
+<td><code>floors = 4</code></td>
+</tr>
+<tr class="even">
+<td>Data type</td>
+<td>Kind of value</td>
+<td><code>str</code>, <code>int</code>, <code>float</code>, <code>bool</code></td>
+</tr>
+<tr class="odd">
+<td>Expression</td>
+<td>Code that produces a value</td>
+<td><code>floors + 1</code></td>
+</tr>
+<tr class="even">
+<td>Function call</td>
+<td>Runs a named operation</td>
+<td><code>print(name)</code></td>
+</tr>
+<tr class="odd">
+<td>Condition</td>
+<td>Chooses a path</td>
+<td><code>if floors &gt; 3:</code></td>
+</tr>
+<tr class="even">
+<td>Loop</td>
+<td>Repeats instructions</td>
+<td><code>for item in buildings:</code></td>
+</tr>
+<tr class="odd">
+<td>Collection</td>
+<td>Stores multiple values</td>
+<td><code>buildings = ["Library", "Lab"]</code></td>
+</tr>
+<tr class="even">
+<td>Dictionary</td>
+<td>Stores key-value pairs</td>
+<td><code>{"name": "Library"}</code></td>
+</tr>
+<tr class="odd">
+<td>Function definition</td>
+<td>Creates a reusable operation</td>
+<td><code>def area(w, h):</code></td>
+</tr>
+<tr class="even">
+<td>Import</td>
+<td>Makes a module or API available</td>
+<td><code>from qgis.core import QgsProject</code></td>
+</tr>
+<tr class="odd">
+<td>Exception/error</td>
+<td>Reports a problem in code or execution</td>
+<td><code>NameError</code>, <code>SyntaxError</code></td>
+</tr>
+</tbody>
+</table>
+<p>Operators to practise include arithmetic (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>**</code>), comparison (<code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>), logical (<code>and</code>, <code>or</code>, <code>not</code>) and assignment (<code>=</code>, <code>+=</code>). Explain that <code>=</code> assigns a value, whereas <code>==</code> tests whether two values are equal. Python uses indentation to define blocks; consistent four-space indentation is recommended.</p>
+<!-- {{< embed Colab_Notebooks\GEO333_Python_Foundations.ipynb >}} -->
+</section>
+<section id="programming-logic-conditions-loops-lists-and-functions" class="slide level2">
+<h2>Programming logic: conditions, loops, lists and functions</h2>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Use <code>if</code>, <code>elif</code> and <code>else</code> statements.</li>
+<li>Explain and use a <code>for</code> loop.</li>
+<li>Create and access lists.</li>
+<li>Understand dictionaries as key-value structures.</li>
+<li>Write and call simple functions.</li>
+<li>Explain how these structures support repetitive data processing.</li>
+</ul>
+<p><strong>Concepts and examples</strong></p>
+<p><strong>Conditions</strong></p>
+<div id="ec7a3a96" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>building_floors <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a><span class="cf">if</span> building_floors <span class="op">&gt;=</span> <span class="dv">2</span>:</span>
+<span id="cb5-4"><a href=""></a>    <span class="bu">print</span>(<span class="st">"Multi-storey building"</span>)</span>
+<span id="cb5-5"><a href=""></a><span class="cf">else</span>:</span>
+<span id="cb5-6"><a href=""></a>    <span class="bu">print</span>(<span class="st">"Low-rise building"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Multi-storey building</code></pre>
+</div>
+</div>
+<p><strong>Lists</strong></p>
+<div id="8208a5c8" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>buildings <span class="op">=</span> [</span>
+<span id="cb7-2"><a href=""></a>    <span class="st">"Faculty of Arts"</span>,</span>
+<span id="cb7-3"><a href=""></a>    <span class="st">"Faculty of Law"</span>,</span>
+<span id="cb7-4"><a href=""></a>    <span class="st">"Main Library"</span></span>
+<span id="cb7-5"><a href=""></a>]</span>
+<span id="cb7-6"><a href=""></a></span>
+<span id="cb7-7"><a href=""></a><span class="cf">for</span> building <span class="kw">in</span> buildings:</span>
+<span id="cb7-8"><a href=""></a>    <span class="bu">print</span>(building)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Faculty of Arts
+Faculty of Law
+Main Library</code></pre>
+</div>
+</div>
+<p><strong>Dictionaries</strong></p>
+<div id="a3fcea5a" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>building <span class="op">=</span> {</span>
+<span id="cb9-2"><a href=""></a>    <span class="st">"name"</span>: <span class="st">"Main Library"</span>,</span>
+<span id="cb9-3"><a href=""></a>    <span class="st">"category"</span>: <span class="st">"Academic"</span>,</span>
+<span id="cb9-4"><a href=""></a>    <span class="st">"floors"</span>: <span class="dv">3</span></span>
+<span id="cb9-5"><a href=""></a>}</span>
+<span id="cb9-6"><a href=""></a></span>
+<span id="cb9-7"><a href=""></a><span class="bu">print</span>(building[<span class="st">"name"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Main Library</code></pre>
+</div>
+</div>
+<p><strong>Functions</strong></p>
+<div id="8eb92685" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a><span class="kw">def</span> classify_building(floors):</span>
+<span id="cb11-2"><a href=""></a></span>
+<span id="cb11-3"><a href=""></a>    <span class="cf">if</span> floors <span class="op">&gt;=</span> <span class="dv">2</span>:</span>
+<span id="cb11-4"><a href=""></a>        <span class="cf">return</span> <span class="st">"Multi-storey"</span></span>
+<span id="cb11-5"><a href=""></a></span>
+<span id="cb11-6"><a href=""></a>    <span class="cf">return</span> <span class="st">"Low-rise"</span></span>
+<span id="cb11-7"><a href=""></a></span>
+<span id="cb11-8"><a href=""></a></span>
+<span id="cb11-9"><a href=""></a>result <span class="op">=</span> classify_building(<span class="dv">4</span>)</span>
+<span id="cb11-10"><a href=""></a><span class="bu">print</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Multi-storey</code></pre>
+</div>
+</div>
+<p><strong>Guided exercises</strong></p>
+<ul>
+<li>Classify buildings by number of floors.</li>
+<li>Count items in a list.</li>
+<li>Display each building in a list.</li>
+<li>Retrieve a building attribute from a dictionary.</li>
+<li>Write a function that calculates the area of a rectangle.</li>
+</ul>
+<p><strong>Assingment</strong></p>
+<p>Create a small program that stores at least five campus buildings, displays their names and classifies them based on the number of departments</p>
+<p><strong>Expected output</strong></p>
+<p>A Python program demonstrating conditions, loops, lists, dictionaries and functions.</p>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>Why use a loop rather than write the same instruction repeatedly?</li>
+<li>When is a function useful?</li>
+<li>What is the difference between a list and a dictionary?</li>
+</ul>
+</section>
+<section id="data-preparation-cleaning-tabular-records-for-gis" class="slide level2">
+<h2>Data preparation: cleaning tabular records for GIS</h2>
+<p><strong>Purpose and scope</strong></p>
+<p>During this week Students need to understand the structure and quality of tabular data and prepare a clean CSV file for use in QGIS. QGIS will be the main environment for joining, filtering, summarising and analysing the data in subsequent weeks. Other Python libraries such as Pandas and GeoPandas, R packages and database tools that can perform similar tasks outside a desktop GIS will be mentioned, but students will not be required to learn those additional toolkits in this practical.</p>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Explain a CSV file as a table of records and fields.</li>
+<li>Inspect column names, data types, missing values and duplicate rows.</li>
+<li>Identify inconsistent spellings, spaces, categories and identifiers.</li>
+<li>Clean a supplied table using a spreadsheet editor or a text editor.</li>
+<li>Save a consistent CSV with a clear encoding and field structure.</li>
+<li>Explain how the cleaned CSV will be imported into QGIS and joined to spatial features using a common key.</li>
+</ul>
+<p><strong>Concepts</strong></p>
+<ul>
+<li>Records, fields, rows and columns.</li>
+<li>CSV delimiters, headers, quotation marks and character encoding.</li>
+<li>Missing, invalid and duplicate values.</li>
+<li>Stable identifiers and join keys.</li>
+<li>Data dictionary and provenance.</li>
+<li>Difference between cleaning a table and spatial analysis.</li>
+</ul>
+<p><strong>Tutor-led demonstration</strong></p>
+<ol type="1">
+<li>Open a supplied <code>campus_departments_raw.csv</code> in Google Sheets or a spreadsheet application.</li>
+<li>Identify the header row and explain that each row represents one record.</li>
+<li>Inspect inconsistent faculty names, trailing spaces, duplicate department records and blank building IDs.</li>
+<li>Explain which issues can be corrected from an authoritative source and which must be flagged for verification rather than guessed.</li>
+<li>Standardise field names (for example <code>department_id</code>, <code>department_name</code>, <code>faculty_id</code>, <code>building_id</code>).</li>
+<li>Remove only confirmed duplicate rows; do not delete records merely because two names look similar.</li>
+<li>Save as CSV UTF-8 and reopen the saved file to check that columns and special characters remain intact.</li>
+</ol>
+<p><strong>Guided exercise</strong></p>
+<p>Students receive a deliberately imperfect table containing department names, faculty codes and building identifiers. They prepare a cleaned copy, maintain the original raw file, record each correction and create a short data dictionary explaining the fields.</p>
+<p><strong>Assingment</strong></p>
+<p>Each group prepares one cleaned non-spatial table that can later be joined to campus spatial data. The join key must match the identifier in the spatial layer exactly.</p>
+<p><strong>Expected output</strong></p>
+<ul>
+<li>Original raw CSV retained unchanged.</li>
+<li>Cleaned UTF-8 CSV.</li>
+<li>Short data dictionary.</li>
+<li>Cleaning log listing changes and unresolved issues.</li>
+</ul>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>Why should raw data be preserved?</li>
+<li>Why is a stable ID usually safer than joining on a name?</li>
+<li>Why should an unknown value remain unknown rather than be invented?</li>
+</ul>
+</section>
+<section id="spatial-data-acquisition-digitising-and-quality-assessment-in-qgis" class="slide level2">
+<h2>Spatial data acquisition, digitising and quality assessment in QGIS</h2>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Distinguish point, line and polygon data.</li>
+<li>Explain the purpose of a coordinate reference system.</li>
+<li>Load and inspect spatial data in QGIS.</li>
+<li>Digitise selected campus features.</li>
+<li>Create and edit attribute tables.</li>
+<li>Identify basic geometry and attribute errors.</li>
+</ul>
+<p><strong>Concepts</strong></p>
+<ul>
+<li>Vector data.</li>
+<li>Spatial and attribute data.</li>
+<li>Point, line and polygon geometry.</li>
+<li>Coordinate reference systems.</li>
+<li>Attribute schema.</li>
+<li>Geometry validity.</li>
+<li>Data completeness and positional accuracy.</li>
+</ul>
+<p><strong>Tutor-led activities</strong></p>
+<ol type="1">
+<li>Load available campus reference data into QGIS.</li>
+<li>Explain the coordinate reference system displayed by the project.</li>
+<li>Demonstrate creating a GeoPackage.</li>
+<li>Demonstrate digitising a building polygon.</li>
+<li>Add attributes to the building.</li>
+<li>Demonstrate digitising a road line and a facility point.</li>
+<li>Demonstrate basic geometry and attribute checks.</li>
+</ol>
+<p><strong>Suggested campus layers</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Layer</th>
+<th style="text-align: left;">Geometry</th>
+<th style="text-align: left;">Required introductory attributes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Buildings</td>
+<td style="text-align: left;">Polygon</td>
+<td style="text-align: left;">building_id, name, category</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Roads</td>
+<td style="text-align: left;">Line</td>
+<td style="text-align: left;">road_id, name, type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Facilities</td>
+<td style="text-align: left;">Point</td>
+<td style="text-align: left;">facility_id, name, category</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Open spaces</td>
+<td style="text-align: left;">Polygon</td>
+<td style="text-align: left;">space_id, name, type</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Group Assignment</strong></p>
+<p>Allocate different non-overlapping zones or feature categories to members. Each member digitises assigned features using the same schema and coordinate reference system.</p>
+<p>The group data coordinator checks the submissions and prepares an approved master GeoPackage.</p>
+<p><strong>Expected output</strong></p>
+<p>A campus GeoPackage containing the agreed spatial layers and attribute fields.</p>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>Why must all group members use the same coordinate reference system?</li>
+<li>Why should every feature have a stable identifier?</li>
+<li>What is the difference between positional accuracy and attribute completeness?</li>
+</ul>
+</section>
+<section id="gis-data-management-and-processing-across-qgis-and-postgis" class="slide level2">
+<h2>GIS data management and processing across QGIS and PostGIS</h2>
+<p><strong>Purpose and scope</strong></p>
+<p>QGIS and PostGIS are the principal tools. Students should see that filtering, selecting, reprojection, joining, validation and exporting are not isolated to one software package: GIS applications and programming/database environments implement many of the same established spatial concepts and operations. The aim is to understand the method and its inputs/outputs, not to learn another library. GeoPandas may be shown briefly by the tutor as an example of doing similar work from Python, but it is not a required student tool or assessment requirement.</p>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Open and inspect the approved GeoPackage in QGIS.</li>
+<li>Inspect layer geometry, fields, feature count and CRS.</li>
+<li>Select and filter features by attribute and location.</li>
+<li>Reproject a layer appropriately and explain why the CRS matters.</li>
+<li>Join a cleaned CSV table to a spatial layer using a stable key.</li>
+<li>Export an approved layer to a new GeoPackage and import it into PostGIS.</li>
+<li>Recognise that comparable operations can be carried out through SQL or Python libraries without needing to learn those toolkits now.</li>
+</ul>
+<p><strong>Concepts</strong></p>
+<ul>
+<li>Layer, feature, geometry and attribute table.</li>
+<li>Attribute query versus spatial query.</li>
+<li>Select by expression and select by location.</li>
+<li>Join key and one-to-many relationship.</li>
+<li>CRS transformation versus assigning a CRS.</li>
+<li>GeoPackage as a portable SQLite-based spatial container.</li>
+<li>PostGIS as a spatial database extension to PostgreSQL.</li>
+<li>Interoperability: equivalent concepts and data formats across tools.</li>
+</ul>
+<p><strong>Tutor-led activities</strong></p>
+<ol type="1">
+<li>Open the master GeoPackage in QGIS and inspect the layer properties.</li>
+<li>Open the attribute table; identify feature count, fields and data types.</li>
+<li>Demonstrate an attribute filter, such as selecting buildings where <code>category = 'Academic'</code>.</li>
+<li>Demonstrate Select by Location, such as selecting facilities within the campus boundary.</li>
+<li>Demonstrate a table join from the cleaned Week 4 CSV using <code>building_id</code> or another agreed key.</li>
+<li>Explain the difference between assigning a CRS label and actually reprojecting coordinates. Use the project CRS approved for the campus data and explain when a projected CRS is needed for metric analysis.</li>
+<li>Export the checked layer to a new GeoPackage, preserving the original.</li>
+<li>Demonstrate loading the same layer into PostGIS and viewing it in QGIS, highlighting that the data and operation concepts are interoperable across applications.</li>
+<li>Briefly show (do not require students to reproduce) that a Python library such as GeoPandas can read a GeoPackage and apply similar filtering. Explain that this is an alternative workflow, not another core course stack.</li>
+</ol>
+<p><strong>Guided exercise</strong></p>
+<p>Students filter the buildings layer, join the cleaned table, identify records with no matching join key, and export a checked result. They compare the number of features before and after each operation and write down why records were excluded or unmatched.</p>
+<p><strong>Assingment</strong></p>
+<p>Each group prepares a verified <code>buildings</code> layer with its agreed attributes, joins available department information, and imports the approved layer into the group’s PostGIS schema (or follows the tutor’s shared demonstration where individual access is not available).</p>
+<p><strong>Expected output</strong></p>
+<ul>
+<li>QGIS project with the relevant layers and joins.</li>
+<li>Checked GeoPackage export.</li>
+<li>PostGIS copy of the approved layer, where access is available.</li>
+<li>Short interoperability note naming equivalent QGIS, SQL or Python operations.</li>
+</ul>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>What is the difference between an attribute selection and a spatial selection?</li>
+<li>Why can a join fail even when two tables appear to contain the same names?</li>
+<li>Why should a CRS be checked before measuring distance or area?</li>
+<li>What does interoperability mean in a GIS workflow?</li>
+</ul>
+</section>
+<section id="spatial-analysis-and-geoprocessing-using-qgis-and-postgis" class="slide level2">
+<h2>Spatial analysis and geoprocessing using QGIS and PostGIS</h2>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Translate a campus question into a suitable spatial operation.</li>
+<li>Run area, buffer, clip, intersection, dissolve, distance and spatial join operations in QGIS Processing.</li>
+<li>Run or interpret selected equivalent PostGIS spatial SQL functions.</li>
+<li>Check units, CRS, geometry validity and the reasonableness of outputs.</li>
+<li>Explain what a spatial result means and what it does not establish.</li>
+</ul>
+<p><strong>Core operations and campus questions</strong></p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Campus question</th>
+<th>QGIS tool or method</th>
+<th>PostGIS equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Area</td>
+<td>What is each building’s footprint area?</td>
+<td>Field Calculator / <code>$area</code> with suitable CRS</td>
+<td><code>ST_Area</code></td>
+</tr>
+<tr class="even">
+<td>Buffer</td>
+<td>Which buildings are within 100 m of a road?</td>
+<td>Buffer, then Select by Location</td>
+<td><code>ST_Buffer</code>, <code>ST_Intersects</code></td>
+</tr>
+<tr class="odd">
+<td>Clip</td>
+<td>Which features fall inside the campus boundary?</td>
+<td>Clip</td>
+<td><code>ST_Intersection</code> or spatial filter</td>
+</tr>
+<tr class="even">
+<td>Intersection</td>
+<td>Which buildings overlap a study zone?</td>
+<td>Intersection</td>
+<td><code>ST_Intersection</code></td>
+</tr>
+<tr class="odd">
+<td>Spatial join</td>
+<td>Which facility is closest to or within a building/zone?</td>
+<td>Join attributes by location</td>
+<td><code>ST_Intersects</code>, <code>ST_DWithin</code></td>
+</tr>
+<tr class="even">
+<td>Distance</td>
+<td>What is the straight-line distance between selected points?</td>
+<td>Distance matrix / distance to nearest hub</td>
+<td><code>ST_Distance</code></td>
+</tr>
+<tr class="odd">
+<td>Dissolve</td>
+<td>What is the combined area of a set of zones?</td>
+<td>Dissolve</td>
+<td><code>ST_Union</code> / <code>ST_UnaryUnion</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tutor-led activities</strong></p>
+<ol type="1">
+<li>Discuss a geographical question and identify the input layers, operation, parameters and expected output.</li>
+<li>Demonstrate calculating building area. Confirm that the layer uses an appropriate projected CRS with metre units before interpreting area in square metres.</li>
+<li>Buffer a selected campus road by a stated distance, then select buildings intersecting the buffer.</li>
+<li>Clip a facilities layer to the campus boundary.</li>
+<li>Run a spatial join to associate facilities with a campus zone.</li>
+<li>Compare one QGIS result with a tutor-prepared PostGIS query. Explain the purpose of functions such as <code>ST_Area</code>, <code>ST_Buffer</code>, <code>ST_Intersects</code> and <code>ST_DWithin</code> without requiring advanced SQL.</li>
+<li>Inspect outputs for invalid geometries, unexpected counts, units and misleading interpretations.</li>
+</ol>
+<p><strong>Example PostGIS query</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource {sql} number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href=""></a>SELECT</span>
+<span id="cb13-2"><a href=""></a>    building_id,</span>
+<span id="cb13-3"><a href=""></a>    name,</span>
+<span id="cb13-4"><a href=""></a>    ST_Area(geom) AS area_square_units</span>
+<span id="cb13-5"><a href=""></a>FROM campus.buildings;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The result is only interpretable as square metres if the geometry is in a suitable projected CRS measured in metres. The tutor must verify the actual campus CRS and field names before class.</p>
+<p><strong>Guided exercise</strong></p>
+<p>Students complete two QGIS analyses from a supplied set of campus questions, record parameters and export outputs to the group’s approved GeoPackage. They compare one result with the tutor’s PostGIS query or result table.</p>
+<p><strong>Assingment</strong></p>
+<p>Each group selects two questions relevant to campus users, completes the analysis, and writes a short interpretation including limitations. For example, proximity to a road does not prove that a building entrance is accessible from that road.</p>
+<p><strong>Expected output</strong></p>
+<ul>
+<li>Two QGIS Processing outputs.</li>
+<li>A processing record showing input layers, CRS, parameters and output.</li>
+<li>One comparison with an equivalent PostGIS spatial query.</li>
+<li>A short geographical interpretation and limitations statement.</li>
+</ul>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>Why does a buffer distance depend on the coordinate system and units?</li>
+<li>Does a straight-line distance represent walking distance?</li>
+<li>How can a spatial operation produce a valid output that is still misleading for the question being asked?</li>
+</ul>
+</section>
+<section id="relational-database-concepts-and-spatial-database-design" class="slide level2">
+<h2>Relational database concepts and spatial database design</h2>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Explain the purpose of a database.</li>
+<li>Distinguish a database from a spreadsheet.</li>
+<li>Identify entities, attributes and records.</li>
+<li>Explain primary and foreign keys.</li>
+<li>Identify one-to-many relationships.</li>
+<li>Design a simple Entity Relationship Diagram.</li>
+</ul>
+<p><strong>Concepts</strong></p>
+<ul>
+<li>Database and Database Management System.</li>
+<li>Tables, records and fields.</li>
+<li>Primary keys.</li>
+<li>Foreign keys.</li>
+<li>Entity relationships.</li>
+<li>Data redundancy.</li>
+<li>Relational database design.</li>
+<li>Spatial and non-spatial tables.</li>
+</ul>
+<p><strong>Campus database exercise</strong></p>
+<p>Propose the following entities:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Entity</th>
+<th style="text-align: left;">Example attributes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Buildings</td>
+<td style="text-align: left;">building_id, name, category</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Faculties</td>
+<td style="text-align: left;">faculty_id, faculty_name</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Departments</td>
+<td style="text-align: left;">department_id, department_name, faculty_id</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Facilities</td>
+<td style="text-align: left;">facility_id, name, category</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Roads</td>
+<td style="text-align: left;">road_id, name, road_type</td>
+</tr>
+</tbody>
+</table>
+<p>Discuss how a faculty may contain several departments and how a building may accommodate multiple departments.</p>
+<p>Where necessary, introduce a linking table rather than placing repeated department information in a building record.</p>
+<p><strong>Practical activities</strong></p>
+<ol type="1">
+<li>Identify entities from the campus scenario.</li>
+<li>Identify attributes for each entity.</li>
+<li>Select primary keys.</li>
+<li>Identify foreign keys.</li>
+<li>Draw relationships.</li>
+<li>Prepare a simple ERD using Google Drawings or a diagram in Google Docs.</li>
+<li>Review the ERD for duplicated information and missing relationships.</li>
+</ol>
+<p><strong>Assingment</strong></p>
+<p>Each group develops an ERD for its campus application and explains the relationships to the tutor.</p>
+<p><strong>Expected output</strong></p>
+<p>A documented campus database design.</p>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>Why should each building have a unique identifier?</li>
+<li>Why is a foreign key useful?</li>
+<li>What problems arise when the same faculty name is repeatedly entered into many records?</li>
+</ul>
+</section>
+<section id="postgresql-postgis-and-introductory-sql" class="slide level2">
+<h2>PostgreSQL, PostGIS and introductory SQL</h2>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Explain the purpose of PostgreSQL and PostGIS.</li>
+<li>Create or connect to a database.</li>
+<li>Enable PostGIS where permitted.</li>
+<li>Create a simple table.</li>
+<li>Import spatial data.</li>
+<li>Execute basic SQL queries.</li>
+<li>Connect QGIS to a PostGIS database.</li>
+</ul>
+<p><strong>Concepts</strong></p>
+<ul>
+<li>Database server and database.</li>
+<li>Schema and table.</li>
+<li>SQL statements.</li>
+<li>Data types.</li>
+<li>Primary and foreign keys.</li>
+<li>PostGIS geometry.</li>
+<li>Spatial reference identifier.</li>
+<li>Basic spatial functions.</li>
+</ul>
+<p><strong>Basic SQL examples</strong></p>
+<p>Create a simple table:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource {sql} number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href=""></a>CREATE TABLE buildings (</span>
+<span id="cb14-2"><a href=""></a>    building_id INTEGER PRIMARY KEY,</span>
+<span id="cb14-3"><a href=""></a>    building_name VARCHAR(100),</span>
+<span id="cb14-4"><a href=""></a>    building_type VARCHAR(50),</span>
+<span id="cb14-5"><a href=""></a>    floors INTEGER</span>
+<span id="cb14-6"><a href=""></a>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Retrieve all records:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource {sql} number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a href=""></a>SELECT *</span>
+<span id="cb15-2"><a href=""></a>FROM buildings;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Retrieve academic buildings:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource {sql} number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a href=""></a>SELECT building_name</span>
+<span id="cb16-2"><a href=""></a>FROM buildings</span>
+<span id="cb16-3"><a href=""></a>WHERE building_type = 'Academic';</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Count buildings:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource {sql} number-lines code-with-copy"><code class="sourceCode"><span id="cb17-1"><a href=""></a>SELECT COUNT(*)</span>
+<span id="cb17-2"><a href=""></a>FROM buildings;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Calculate polygon area once the spatial geometry has been imported:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource {sql} number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a href=""></a>SELECT</span>
+<span id="cb18-2"><a href=""></a>    building_name,</span>
+<span id="cb18-3"><a href=""></a>    ST_Area(geom) AS area</span>
+<span id="cb18-4"><a href=""></a>FROM buildings;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The area units depend on the geometry’s coordinate reference system. Use an appropriate projected CRS or an explicitly chosen geography calculation.</p>
+<p><strong>Practical activities</strong></p>
+<ol type="1">
+<li>Open pgAdmin or the provider’s SQL editor.</li>
+<li>Connect to the assigned database.</li>
+<li>Inspect the database and schema.</li>
+<li>Execute basic SQL queries.</li>
+<li>Import a campus spatial layer using QGIS.</li>
+<li>Inspect the spatial table.</li>
+<li>Connect QGIS to PostGIS.</li>
+<li>Display the database layer in QGIS.</li>
+</ol>
+<p><strong>Assingment</strong></p>
+<p>Each group should demonstrate that its campus buildings are stored in PostGIS, retrieve selected records using SQL and display the spatial table in QGIS.</p>
+<p><strong>Expected output</strong></p>
+<p>A working campus PostGIS database, a set of introductory SQL queries and a QGIS connection.</p>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>What is the difference between PostgreSQL and PostGIS?</li>
+<li>Why should a spatial database use a geometry column?</li>
+<li>What is the difference between an attribute query and a spatial query?</li>
+</ul>
+</section>
+<section id="connecting-python-to-postgresqlpostgis" class="slide level2">
+<h2>Connecting Python to PostgreSQL/PostGIS</h2>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Explain how a Python program establishes a database connection.</li>
+<li>Identify the purpose of host, port, database, username and password.</li>
+<li>Execute a simple SQL query from Python using a database driver.</li>
+<li>Read and display returned records.</li>
+<li>Protect credentials and distinguish a read-only query from an edit.</li>
+</ul>
+<p><strong>Concepts</strong></p>
+<ul>
+<li>Database connection and connection parameters.</li>
+<li>Database driver (<code>psycopg</code>).</li>
+<li>SQL query execution and returned rows.</li>
+<li>Error handling and closing a connection.</li>
+<li>Credentials, environment variables and least-privilege access.</li>
+</ul>
+<p><strong>Demonstration</strong></p>
+<p>Use a tutor-controlled read-only account and a small query. The tutor should supply connection values privately; never place a real password in a script committed to GitHub. The following is a teaching pattern, not a working connection string:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a><span class="im">import</span> psycopg</span>
+<span id="cb19-2"><a href=""></a></span>
+<span id="cb19-3"><a href=""></a>connection <span class="op">=</span> psycopg.<span class="ex">connect</span>(</span>
+<span id="cb19-4"><a href=""></a>    host<span class="op">=</span><span class="st">"HOST_FROM_TUTOR"</span>,</span>
+<span id="cb19-5"><a href=""></a>    port<span class="op">=</span><span class="dv">5432</span>,</span>
+<span id="cb19-6"><a href=""></a>    dbname<span class="op">=</span><span class="st">"DATABASE_NAME"</span>,</span>
+<span id="cb19-7"><a href=""></a>    user<span class="op">=</span><span class="st">"READ_ONLY_USER"</span>,</span>
+<span id="cb19-8"><a href=""></a>    password<span class="op">=</span><span class="st">"PASSWORD_SUPPLIED_PRIVATELY"</span></span>
+<span id="cb19-9"><a href=""></a>)</span>
+<span id="cb19-10"><a href=""></a></span>
+<span id="cb19-11"><a href=""></a><span class="cf">try</span>:</span>
+<span id="cb19-12"><a href=""></a>    <span class="cf">with</span> connection.cursor() <span class="im">as</span> cursor:</span>
+<span id="cb19-13"><a href=""></a>        cursor.execute(</span>
+<span id="cb19-14"><a href=""></a>            <span class="st">"SELECT building_id, name FROM campus.buildings LIMIT 10;"</span></span>
+<span id="cb19-15"><a href=""></a>        )</span>
+<span id="cb19-16"><a href=""></a>        <span class="cf">for</span> row <span class="kw">in</span> cursor.fetchall():</span>
+<span id="cb19-17"><a href=""></a>            <span class="bu">print</span>(row)</span>
+<span id="cb19-18"><a href=""></a><span class="cf">finally</span>:</span>
+<span id="cb19-19"><a href=""></a>    connection.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explain each step: import the driver, connect, create a cursor, execute SQL, fetch rows and close the connection. If the class cannot install or connect the driver reliably, the tutor can demonstrate the script while students practise the equivalent query in pgAdmin and QGIS. The course does not require students to build a backend server.</p>
+<p><strong>Guided exercise</strong></p>
+<ol type="1">
+<li>Open the tutor’s sample script in VS Code.</li>
+<li>Identify the connection parameters without exposing the password.</li>
+<li>Run a read-only query against the prepared database.</li>
+<li>Change the selected fields and the <code>LIMIT</code> value.</li>
+<li>Compare the result with the same query in pgAdmin.</li>
+<li>Explain why the result is a table of records and why geometry-aware operations are more naturally performed in QGIS or PostGIS.</li>
+</ol>
+<p><strong>Assingment</strong></p>
+<p>Each group prepares one Python script that retrieves a small set of building attributes from PostGIS. The group documents the query and explains how QGIS, SQL and Python can access the same authoritative dataset using different interfaces.</p>
+<p><strong>Expected output</strong></p>
+<p>A simple Python database-reading script, a saved SQL query and a short explanation of the data flow. No Pandas or GeoPandas dependency is required.</p>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>What is the difference between connecting to a database and opening a local GeoPackage?</li>
+<li>Why should a read-only database role be used for a demonstration?</li>
+<li>Why must credentials be kept out of source code repositories?</li>
+</ul>
+</section>
+<section id="interactive-2d-campus-mapping-with-python-and-folium" class="slide level2">
+<h2>Interactive 2D campus mapping with Python and Folium</h2>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Explain the basic concept of web GIS.</li>
+<li>Explain the role of HTML, JavaScript and browser mapping libraries at an introductory level.</li>
+<li>Understand that Folium uses Leaflet to render interactive maps.</li>
+<li>Create a map using Python.</li>
+<li>Add campus features and pop-ups.</li>
+<li>Display building entrance points separately from building footprints.</li>
+<li>Add basic layer controls.</li>
+</ul>
+<p><strong>Why Folium?</strong></p>
+<p>Folium provides a Python interface for creating interactive maps that are rendered using Leaflet in a web browser. This allows students to focus on Python while learning how interactive web mapping works. They do not need to build a JavaScript application.</p>
+<p><strong>Concepts</strong></p>
+<ul>
+<li>Web GIS.</li>
+<li>Browser-based map.</li>
+<li>HTML page structure.</li>
+<li>JavaScript’s role in browser interaction.</li>
+<li>Folium map object.</li>
+<li>Markers and pop-ups.</li>
+<li>GeoJSON layers.</li>
+<li>Layer control.</li>
+<li>Map output as HTML.</li>
+</ul>
+<p><strong>Demonstration</strong></p>
+<div id="2e99dd8e" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a><span class="im">import</span> folium</span>
+<span id="cb20-2"><a href=""></a></span>
+<span id="cb20-3"><a href=""></a>campus_map <span class="op">=</span> folium.Map(</span>
+<span id="cb20-4"><a href=""></a>    location<span class="op">=</span>[<span class="fl">6.5195488</span>, <span class="fl">3.3987876</span>],</span>
+<span id="cb20-5"><a href=""></a>    zoom_start<span class="op">=</span><span class="dv">16</span></span>
+<span id="cb20-6"><a href=""></a>)</span>
+<span id="cb20-7"><a href=""></a></span>
+<span id="cb20-8"><a href=""></a>folium.Marker(</span>
+<span id="cb20-9"><a href=""></a>    location<span class="op">=</span>[<span class="fl">6.5195488</span>, <span class="fl">3.3987876</span>],</span>
+<span id="cb20-10"><a href=""></a>    popup<span class="op">=</span><span class="st">"Senate Building,University of Lagos"</span></span>
+<span id="cb20-11"><a href=""></a>).add_to(campus_map)</span>
+<span id="cb20-12"><a href=""></a></span>
+<span id="cb20-13"><a href=""></a>campus_map.save(<span class="st">"campus_map.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Guided exercises</strong></p>
+<ol type="1">
+<li>Create a Folium map.</li>
+<li>Change the centre and zoom level.</li>
+<li>Add a marker.</li>
+<li>Add a pop-up.</li>
+<li>Save the map as an HTML file.</li>
+<li>Open the output in a browser.</li>
+<li>Explain the relationship between the Python script and the generated HTML map.</li>
+</ol>
+<p><strong>Assingment</strong></p>
+<p>Each student creates an initial interactive campus map with at least one campus feature layer and a title.</p>
+<p><strong>Expected output</strong></p>
+<p>A working Folium-generated campus map.</p>
+<p><strong>Reflection questions</strong></p>
+<ul>
+<li>What does Folium generate?</li>
+<li>Why does a Python map open in a web browser?</li>
+<li>What role does Leaflet play?</li>
+</ul>
+</section>
+<section id="integrating-testing-and-presenting-the-2d-virtual-campus" class="slide level2">
+<h2>Integrating, testing and presenting the 2D Virtual Campus</h2>
+<p><strong>Learning outcomes</strong></p>
+<p>Students should be able to:</p>
+<ul>
+<li>Integrate the approved campus datasets.</li>
+<li>Add multiple feature layers to the map.</li>
+<li>Display feature information.</li>
+<li>Add a basic search or filtering function where achievable.</li>
+<li>Test the map and its data.</li>
+<li>Explain the complete workflow from data acquisition to application output.</li>
+</ul>
+<p><strong>Practical activities</strong></p>
+<ol type="1">
+<li>Retrieve the approved datasets.</li>
+<li>Add building, building-entrance, road and facility layers.</li>
+<li>Add feature pop-ups that show building information and identify available entrances. Link entrance records to their parent building using <code>building_id</code>.</li>
+<li>Style features by category.</li>
+<li>Add layer controls.</li>
+<li>Add a basic building search or filtered building list.</li>
+<li>Check coordinate accuracy and attribute completeness.</li>
+<li>Test the application in a browser.</li>
+<li>Prepare the technical report and presentation.</li>
+</ol>
+<p><strong>Assingment</strong></p>
+<p>Each group demonstrates the final application using a set of user tasks:</p>
+<ul>
+<li>Locate a named campus building.</li>
+<li>Identify the appropriate public entrance for that building.</li>
+<li>View its information.</li>
+<li>Display roads and facilities.</li>
+<li>Switch between layers.</li>
+<li>Explain the source and quality of the data.</li>
+<li>Explain how the spatial database and Python scripts contributed to the application.</li>
+</ul>
+<p><strong>Expected output</strong></p>
+<p>A completed 2D Interactive University of Lagos Virtual Campus, source files, database backup, spatial datasets and technical report.</p>
+</section></section>
+<section>
+<section id="final-project-assessment" class="title-slide slide level1 center">
+<h1>Final project assessment</h1>
+<p>The final project shall assess both the quality of the group application and the competence of individual students.</p>
+<p>Suggested continuous assessment allocation:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Component</th>
+<th style="text-align: right;">Marks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Individual Python exercises</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Spatial data acquisition and quality assessment</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Database design and SQL exercises</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Python geoprocessing exercise</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Final 2D campus application</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Individual technical demonstration</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>40</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="final-application-assessment" class="slide level2">
+<h2>Final application assessment</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Criterion</th>
+<th style="text-align: right;">Marks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Accuracy and completeness of campus spatial data</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Database structure and use of spatial data</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Application functionality and interactive map</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Search, layer control and feature information</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Documentation and presentation</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>15</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The individual technical demonstration should require each student to explain at least one Python concept, one spatial data or database decision, and one component of the group application.</p>
+</section></section>
+<section id="reference-documentation" class="title-slide slide level1 center">
+<h1>Reference documentation</h1>
+<p>The following official documentation will be used in the course:</p>
+<ul>
+<li><a href="https://docs.qgis.org/3.44/en/docs/user_manual/managing_data_source/supported_data.html">QGIS documentation: supported data formats</a></li>
+<li><a href="https://postgis.net/documentation/">PostGIS documentation</a></li>
+<li><a href="https://supabase.com/docs/guides/database/extensions/postgis">Supabase: PostGIS extension</a></li>
+<li><a href="https://docs.python.org/3/">Python documentation</a></li>
+<li><a href="https://python-visualization.github.io/folium/latest/">Folium documentation</a></li>
+<li><a href="https://docs.github.com/">GitHub documentation</a></li>
+<li><a href="https://www.sqlite.org/whentouse.html">SQLite: Appropriate Uses For SQLite</a> — guidance on local file databases, network filesystems and concurrent writers.</li>
+<li><a href="https://supabase.com/docs/guides/database/extensions/postgis">Supabase: PostGIS extension</a> — enabling PostGIS in a managed PostgreSQL project.</li>
+</ul>
+</section>
+
+<section id="recommended-book" class="title-slide slide level1 center">
+<h1>Recommended Book</h1>
+<p><a href="https://soclibrary.futa.edu.ng/books/Python%20Basics%20A%20Practical%20Introduction%20to%20Python%203%20by%20David%20Amos,%20Dan%20Bader,%20Joanna%20Jablonski,%20Fletcher%20Heisler%20(z-lib.org).pdf">Real Python</a></p>
+<script>
+  function openFullscreen(elem) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+      elem.msRequestFullscreen();
+    }
+  }
+</script>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="GEO333_Practical_Course_v14112026_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1600,
+
+        height: 900,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

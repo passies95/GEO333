@@ -1,0 +1,1108 @@
+---
+author: Prof. Akintuyi Akinlabi ; Pascal Ogola
+date: "2026-11"
+jupyter: python3
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    self-contained: true
+    toc: false
+    # chalkboard: true
+    code-copy: true
+    code-overflow: wrap
+    transition: slide
+    width: 1600
+    height: 900
+# format:
+#   html:
+#     self-contained: true
+#     code-fold: false
+#     embed-resources: true
+#     number-sections: true
+#     theme: united
+#     toc: true
+#     toc-depth: 3
+execute:
+  enabled: true
+  echo: true
+  message: false
+  warning: false
+subtitle: Level 300 12-week practical teaching guide
+title: "GEO 333: GIS Programming and Database Management Systems"
+---
+
+# Course overview
+
+- This practical introduces Geography students to programming to equip them with the skills and competencies in:
+
+1.  Formulating a geographical problem and translating it into a GIS
+    workflow.
+2.  Understanding fundamental programming concepts and writing simple Python
+    programs
+3.  Using Python libraries to acquire and process spatial data.
+4.  Designing a simple relational spatial database and explain its
+    structure.
+5.  Creating and querying a PostgreSQL/PostGIS database using 
+    SQL.
+6.  Applying select geoprocessing and spatial analysis methods 
+7.  Developing a collaborative interactive 2D campus map using Python-based tools and documenting the procedures
+
+# Introduction to GIS Programming
+- GIS is used in virtually every sector of society including Transportation, Health, Agriculture, Urban Planning, Environmental Management, and many more.
+- GIS programming is the process of using a programming language to automate GIS operations, manage spatial data and develop GIS applications.
+
+ `Systems: Many components working together through a set of rules/ procedures to achieve a common goal i.e. of linking what we know to the where.`
+
+<!-- ![](assets\GIS_components.png) -->
+<img src="assets\GIS_components.png" id="fullscreen-img" style="max-width: 100%; cursor: pointer;" onclick="openFullscreen(this)" />
+
+- It is a core component of a GIS system
+- It provides procedures/steps, tools and libraries for the development of GIS applications and the automation of GIS workflows. Consider the following example of a taxi hailing application.
+
+## Taxi hailing Workflow
+<div style="height:90vh">
+
+<iframe
+src="assets/taxi.html"
+style="width:100%;height:100%;border:none;">
+</iframe>
+
+</div>
+<!-- <iframe src="assets/taxi.html" width="100%" height="800px" style="border:none;"></iframe> -->
+
+## Reflection
+
+- If you were the taxi driver, what information on this map would help you decide where to go and how to get there?
+- Which of these details do you think would change (***vary***) if the passenger selected a different ***pickup*** point or ***destination***?
+- What happens when a step/command is omitted?
+- Why is the order(***sequence***) important?
+- How does this resemble a GIS workflow?
+
+## 
+<iframe src="assets/mapbot.html" width="100%" height="900px" style="border:none;"></iframe>
+
+## Reflection
+- What are the things that vary on this map?
+- What happens to the longitude as student moves from the West to the East of Nigeria?
+- What happens to the latitude as student moves from the North to the South of Nigeria?
+- Try to identify the same elements in this real world implementation
+- [Google Earth Web](https://earth.google.com/web/@6.5315319,3.39369549,5.39204582a,35496.16188711d,35y,0h,0t,0r/data=CgRCAggBMikKJwolCiExdXRyNmNSYWlyZVBmSmo1cmxMQ0RLNEthRmFZb3hQdVAgAToDCgEwQgIIAEoICPv2zs0EEAFqDwgBEgt0ZW1wZXJhdHVyZQ)
+- To make these applications possible, we need way to translate the geographical problem into a GIS workflow and then into a **language** that can be understood by a computer. This is the essence of GIS programming
+- In **Code: The Hidden Language of Computer Hardware and Software**, Charles Petzold explains how computers use symbols, variables, instructions and logical operations to process information and produce results.
+
+
+## Core software
+
+The following tools will be used in this course:
+
+| Icon | Tool | Description |
+|:---:|:---|:---|
+| <img src="https://cdn.simpleicons.org/googlecolab" width="34" alt="Google Colab logo"> | [**Google Colab**](https://colab.research.google.com/notebooks/intro.ipynb) | Browser-based environment for introductory Python programming. |
+| <img src="https://cdn.simpleicons.org/qgis/589632" width="34" alt="QGIS logo"> | [**QGIS**](https://docs.qgis.org/latest/en/docs/user_manual/) | Spatial data viewing, digitising, editing, quality checks and spatial analysis. |
+| <img src="https://cdn.simpleicons.org/python/3776AB" width="34" alt="Python logo"> | [**Python**](https://docs.python.org/3/) | Core programming language for programming foundations, data processing and GIS automation. Used in Google Colab, VS Code and later in the QGIS Python Console. |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="34" alt="Visual Studio Code logo"> | [**Visual Studio Code (VS Code)**](https://code.visualstudio.com/docs) | Code editor for writing, editing, organising and running Python scripts. |
+## Additional Tools
+| Icon | Tool | Description |
+|:---:|:---|:---|
+| <img src="https://cdn.simpleicons.org/postgresql/4169E1" width="34" alt="PostgreSQL logo"> | [**PostgreSQL / PostGIS**](https://www.postgresql.org/docs/current/) ([PostGIS documentation](https://postgis.net/documentation/)) | Relational and spatial database management, including the storage, querying and analysis of geographical data. |
+| <img src="https://cdn.simpleicons.org/leaflet/199900" width="34" alt="Leaflet logo"> | [**Folium**](https://python-visualization.github.io/folium/latest/) | Python library for producing interactive, Leaflet-based web maps. |
+| <img src="https://cdn.simpleicons.org/github/181717" width="34" alt="GitHub logo"> | [**GitHub**](https://docs.github.com/en) | Code versioning, project collaboration, repository management and contribution history. |
+| <img src="https://cdn.simpleicons.org/googledrive/4285F4" width="34" alt="Google Drive logo"> | [**Google Drive**](https://support.google.com/drive/) | Shared project files, collaborative storage and approved data exchange. |
+
+JavaScript and HTML may be introduced briefly to explain how
+browser-based maps work. Students are not expected to develop a
+JavaScript application.
+
+# Semester project specification
+
+## Project scenario
+
+- The University of Lagos requires an accessible campus information map
+through which students, visitors and other users can identify buildings,
+roads, departments and selected facilities.
+- What is the minimum application functionality that will satisfy the needs of the users?
+
+## Minimum application functions
+
+The final application should:
+
+-   Display the campus boundary;
+-   Display building footprints, roads and selected facilities based on functional categories e.g bus station, library, cafeteria, sports complex, etc.;
+-   Allow users to click a building and view its attributes including name, category, number of floors and associated departments, photo
+-   Provide a basic search based on the variable such as department, faculty, building name or facility type or function type e.g Electric Bus station
+-   Allow users to switch map layers on and off.
+-   Present a clear title, legend or layer key, and source information
+- **Route finding**. Allow the user to input their current location or autimatically pick their location and find routes based on walkable paths, transport options within the universtiy
+
+## Suggested campus data model
+
+Designing the campus database requires identifying the spatial and non-spatial entities, their attributes and relationships. The following is a suggested data model:
+
+| Layer | Geometry | Important fields |
+|---|---|---|
+| `buildings` | Polygon | `building_id` (unique), `building_name`, `category`, `description` |
+| `building_entrances` | Point | `entrance_id` (unique), `building_id` (foreign key), `entrance_name`, `entrance_type`, `is_public`, `accessibility_note` |
+| `pedestrian_paths` | Line | `path_id`, `path_type`, `surface`, `accessible`, `notes` |
+| `roads` | Line | `road_id`, `road_name`, `road_type` |
+| `facilities` | Point or polygon | `facility_id`, `facility_name`, `facility_type` |
+
+# Project orientation and programming foundations
+
+## Demonstration: starting Python in Google Colab
+
+Google Colab is the introductory programming environment for Weeks 2
+and 3. It reduces setup problems and allows students to concentrate on
+Python syntax and computational thinking.
+
+1. Open a browser and navigate to `https://colab.research.google.com/`.
+2. Sign in with the student's Google account if prompted.
+3. Select **New notebook**. A notebook contains cells that
+   can be run independently. Further, code execution is provided by a
+   hosted runtime.
+
+![](assets\colab.png)
+
+<!-- {{< embed Colab_Notebooks\GEO333_Colab_Introduction.ipynb >}} -->
+[🚀 Open GEO 333 Introduction to Google Colab](Colab_Notebooks/GEO333_Colab_Introduction.ipynb){target="_blank" rel="noopener"}
+
+4. Rename the notebook `GEO333_Introduction_YourName`.
+##
+5. In the first code cell, enter and run:
+
+   ```{python}
+   # First Python instruction
+   course_code = "GEO 333"
+   course_name = "Collaborative GIS Programming and Application Development"
+   print(course_code)
+   print(course_name)
+   ```
+
+6. Change the text, run the cell again and observe the
+   output. Introduce the distinction between code, execution and output.
+7. Demonstrate adding a text cell for notes and saving the notebook in
+   Google Drive. Explain that notebooks are useful learning records,
+   while `.py` files will later be used for scripts.
+8. While Colab is suitable for learning general Python, it
+   does not automatically provide the QGIS Python API or a connection
+   to the student's desktop QGIS project.
+
+## Introduction to Python and computational thinking
+**Concepts**
+
+-   Algorithm and program.
+-   Python interpreter.
+-   Statements and indentation.
+-   Comments.
+-   Variables.
+-   Strings, integers, floats and Boolean values.
+-   Arithmetic and comparison operators.
+-   Input and output.
+
+[🚀 Open GEO 333 Python Foundations](Colab_Notebooks/GEO333_Python_Foundations.ipynb){target="_blank" rel="noopener"}
+<!-- {{< embed Colab_Notebooks\GEO333_Python_Foundations.ipynb >}} -->
+
+## Demonstration
+
+During this lesson we will introduce a simple algorithm to:
+
+1.  Store a building name.
+2.  Store its number of floors.
+3.  Store its building category.
+4.  Display the information.
+
+``` {python}
+# Information about a campus building
+
+building_name = "Faculty of Arts"
+number_of_floors = 4
+building_type = "Academic"
+
+print(building_name)
+print(number_of_floors)
+print(building_type)
+```
+
+## Reflection questions
+
+-   What is the difference between a **variable** and a **value**?
+-   Why is a building name stored as **text** while its number of floors is
+    stored as an **integer**?
+-   What happens if a number is accidentally stored as text?
+
+**Guided exercises**
+
+1.  Create variables for a building name, category and number of floors.
+2.  Store a building area as a decimal number.
+3.  Display a sentence combining the variables.
+4.  Compare two building areas using `>` and `<`.
+5.  Use `input()` to ask for a building name.
+
+## Assignment
+
+- A. Write a short program to store atleast 10 buildings within the campus, their number of floors, category and area. Display the information in a readable format.
+- B. Write a short program to store daily rainfall data recorded at the campus weather station for a week. 
+
+## Python syntax reference
+
+The following python structures and examples are used throughout Weeks 2–4. Students should be able to identify and explain them.
+
+| Structure | Meaning | Example |
+|---|---|---|
+| Comment | Note for a human reader; not executed | `# campus building record` |
+| Statement | An instruction executed by Python | `print(name)` |
+| Variable assignment | Stores a value under a name | `floors = 4` |
+| Data type | Kind of value | `str`, `int`, `float`, `bool` |
+| Expression | Code that produces a value | `floors + 1` |
+| Function call | Runs a named operation | `print(name)` |
+| Condition | Chooses a path | `if floors > 3:` |
+| Loop | Repeats instructions | `for item in buildings:` |
+| Collection | Stores multiple values | `buildings = ["Library", "Lab"]` |
+| Dictionary | Stores key-value pairs | `{"name": "Library"}` |
+| Function definition | Creates a reusable operation | `def area(w, h):` |
+| Import | Makes a module or API available | `from qgis.core import QgsProject` |
+| Exception/error | Reports a problem in code or execution | `NameError`, `SyntaxError` |
+
+Operators to practise include arithmetic (`+`, `-`, `*`, `/`, `**`),
+comparison (`==`, `!=`, `>`, `<`, `>=`, `<=`), logical (`and`, `or`,
+`not`) and assignment (`=`, `+=`). Explain that `=` assigns a value,
+whereas `==` tests whether two values are equal. Python uses indentation
+to define blocks; consistent four-space indentation is recommended.
+
+## Programming logic: conditions, loops, lists and functions
+**Learning outcomes**
+
+Students should be able to:
+
+-   Use `if`, `elif` and `else` statements.
+-   Explain and use a `for` loop.
+-   Create and access lists.
+-   Understand dictionaries as key-value structures.
+-   Write and call simple functions.
+-   Explain how these structures support repetitive data processing.
+
+**Concepts and examples**
+
+**Conditions**
+
+```{python}
+building_floors = 4
+
+if building_floors >= 2:
+    print("Multi-storey building")
+else:
+    print("Low-rise building")
+```
+
+**Lists**
+
+```{python}
+buildings = [
+    "Faculty of Arts",
+    "Faculty of Law",
+    "Main Library"
+]
+
+for building in buildings:
+    print(building)
+```
+
+**Dictionaries**
+
+```{python}
+building = {
+    "name": "Main Library",
+    "category": "Academic",
+    "floors": 3
+}
+
+print(building["name"])
+```
+
+**Functions**
+
+``` {python}
+def classify_building(floors):
+
+    if floors >= 2:
+        return "Multi-storey"
+
+    return "Low-rise"
+
+
+result = classify_building(4)
+print(result)
+```
+
+**Guided exercises**
+
+-   Classify buildings by number of floors.
+-   Count items in a list.
+-   Display each building in a list.
+-   Retrieve a building attribute from a dictionary.
+-   Write a function that calculates the area of a rectangle.
+
+**Assingment**
+
+Create a small program that stores at least five campus buildings,
+displays their names and classifies them based on the number of departments
+
+**Expected output**
+
+A Python program demonstrating conditions, loops, lists, dictionaries
+and functions.
+
+**Reflection questions**
+
+-   Why use a loop rather than write the same instruction repeatedly?
+-   When is a function useful?
+-   What is the difference between a list and a dictionary?
+
+## Data preparation: cleaning tabular records for GIS
+**Purpose and scope**
+
+During this week Students need to understand the structure and quality of tabular data and prepare a clean CSV file for use in QGIS. QGIS will be the main environment for joining, filtering, summarising and analysing the data in subsequent weeks. Other Python libraries such as Pandas and GeoPandas, R packages and database tools that can perform similar tasks outside a desktop GIS will be mentioned, but students will not be required to learn those additional toolkits in this practical.
+
+**Learning outcomes**
+
+Students should be able to:
+
+- Explain a CSV file as a table of records and fields.
+- Inspect column names, data types, missing values and duplicate rows.
+- Identify inconsistent spellings, spaces, categories and identifiers.
+- Clean a supplied table using a spreadsheet editor or a text editor.
+- Save a consistent CSV with a clear encoding and field structure.
+- Explain how the cleaned CSV will be imported into QGIS and joined to
+  spatial features using a common key.
+
+**Concepts**
+
+- Records, fields, rows and columns.
+- CSV delimiters, headers, quotation marks and character encoding.
+- Missing, invalid and duplicate values.
+- Stable identifiers and join keys.
+- Data dictionary and provenance.
+- Difference between cleaning a table and spatial analysis.
+
+**Tutor-led demonstration**
+
+1. Open a supplied `campus_departments_raw.csv` in Google Sheets or a
+   spreadsheet application.
+2. Identify the header row and explain that each row represents one
+   record.
+3. Inspect inconsistent faculty names, trailing spaces, duplicate
+   department records and blank building IDs.
+4. Explain which issues can be corrected from an authoritative source
+   and which must be flagged for verification rather than guessed.
+5. Standardise field names (for example `department_id`,
+   `department_name`, `faculty_id`, `building_id`).
+6. Remove only confirmed duplicate rows; do not delete records merely
+   because two names look similar.
+7. Save as CSV UTF-8 and reopen the saved file to check that columns and
+   special characters remain intact.
+
+**Guided exercise**
+
+Students receive a deliberately imperfect table containing department
+names, faculty codes and building identifiers. They prepare a cleaned
+copy, maintain the original raw file, record each correction and create
+a short data dictionary explaining the fields.
+
+**Assingment**
+
+Each group prepares one cleaned non-spatial table that can later be
+joined to campus spatial data. The join key must match the identifier in
+the spatial layer exactly.
+
+**Expected output**
+
+- Original raw CSV retained unchanged.
+- Cleaned UTF-8 CSV.
+- Short data dictionary.
+- Cleaning log listing changes and unresolved issues.
+
+**Reflection questions**
+
+- Why should raw data be preserved?
+- Why is a stable ID usually safer than joining on a name?
+- Why should an unknown value remain unknown rather than be invented?
+
+## Spatial data acquisition, digitising and quality assessment in QGIS
+**Learning outcomes**
+
+Students should be able to:
+
+-   Distinguish point, line and polygon data.
+-   Explain the purpose of a coordinate reference system.
+-   Load and inspect spatial data in QGIS.
+-   Digitise selected campus features.
+-   Create and edit attribute tables.
+-   Identify basic geometry and attribute errors.
+
+**Concepts**
+
+-   Vector data.
+-   Spatial and attribute data.
+-   Point, line and polygon geometry.
+-   Coordinate reference systems.
+-   Attribute schema.
+-   Geometry validity.
+-   Data completeness and positional accuracy.
+
+**Tutor-led activities**
+
+1.  Load available campus reference data into QGIS.
+2.  Explain the coordinate reference system displayed by the project.
+3.  Demonstrate creating a GeoPackage.
+4.  Demonstrate digitising a building polygon.
+5.  Add attributes to the building.
+6.  Demonstrate digitising a road line and a facility point.
+7.  Demonstrate basic geometry and attribute checks.
+
+**Suggested campus layers**
+
+  Layer         Geometry   Required introductory attributes
+  ------------- ---------- ----------------------------------
+  Buildings     Polygon    building_id, name, category
+  Roads         Line       road_id, name, type
+  Facilities    Point      facility_id, name, category
+  Open spaces   Polygon    space_id, name, type
+
+**Group Assignment**
+
+Allocate different non-overlapping zones or feature categories to
+members. Each member digitises assigned features using the same schema
+and coordinate reference system.
+
+The group data coordinator checks the submissions and prepares an
+approved master GeoPackage.
+
+**Expected output**
+
+A campus GeoPackage containing the agreed spatial layers and attribute
+fields.
+
+**Reflection questions**
+
+-   Why must all group members use the same coordinate reference system?
+-   Why should every feature have a stable identifier?
+-   What is the difference between positional accuracy and attribute
+    completeness?
+
+## GIS data management and processing across QGIS and PostGIS
+
+**Purpose and scope**
+
+QGIS and PostGIS are the principal tools. Students should see that
+filtering, selecting, reprojection, joining, validation and exporting
+are not isolated to one software package: GIS applications and
+programming/database environments implement many of the same established
+spatial concepts and operations. The aim is to understand the method and
+its inputs/outputs, not to learn another library. GeoPandas may be shown
+briefly by the tutor as an example of doing similar work from Python,
+but it is not a required student tool or assessment requirement.
+
+**Learning outcomes**
+
+Students should be able to:
+
+- Open and inspect the approved GeoPackage in QGIS.
+- Inspect layer geometry, fields, feature count and CRS.
+- Select and filter features by attribute and location.
+- Reproject a layer appropriately and explain why the CRS matters.
+- Join a cleaned CSV table to a spatial layer using a stable key.
+- Export an approved layer to a new GeoPackage and import it into
+  PostGIS.
+- Recognise that comparable operations can be carried out through SQL
+  or Python libraries without needing to learn those toolkits now.
+
+**Concepts**
+
+- Layer, feature, geometry and attribute table.
+- Attribute query versus spatial query.
+- Select by expression and select by location.
+- Join key and one-to-many relationship.
+- CRS transformation versus assigning a CRS.
+- GeoPackage as a portable SQLite-based spatial container.
+- PostGIS as a spatial database extension to PostgreSQL.
+- Interoperability: equivalent concepts and data formats across tools.
+
+**Tutor-led activities**
+
+1. Open the master GeoPackage in QGIS and inspect the layer properties.
+2. Open the attribute table; identify feature count, fields and data
+   types.
+3. Demonstrate an attribute filter, such as selecting buildings where
+   `category = 'Academic'`.
+4. Demonstrate Select by Location, such as selecting facilities within
+   the campus boundary.
+5. Demonstrate a table join from the cleaned Week 4 CSV using
+   `building_id` or another agreed key.
+6. Explain the difference between assigning a CRS label and actually
+   reprojecting coordinates. Use the project CRS approved for the campus
+   data and explain when a projected CRS is needed for metric analysis.
+7. Export the checked layer to a new GeoPackage, preserving the original.
+8. Demonstrate loading the same layer into PostGIS and viewing it in
+   QGIS, highlighting that the data and operation concepts are
+   interoperable across applications.
+9. Briefly show (do not require students to reproduce) that a Python
+   library such as GeoPandas can read a GeoPackage and apply similar
+   filtering. Explain that this is an alternative workflow, not another
+   core course stack.
+
+**Guided exercise**
+
+Students filter the buildings layer, join the cleaned table, identify
+records with no matching join key, and export a checked result. They
+compare the number of features before and after each operation and write
+down why records were excluded or unmatched.
+
+**Assingment**
+
+Each group prepares a verified `buildings` layer with its agreed
+attributes, joins available department information, and imports the
+approved layer into the group's PostGIS schema (or follows the tutor's
+shared demonstration where individual access is not available).
+
+**Expected output**
+
+- QGIS project with the relevant layers and joins.
+- Checked GeoPackage export.
+- PostGIS copy of the approved layer, where access is available.
+- Short interoperability note naming equivalent QGIS, SQL or Python
+  operations.
+
+**Reflection questions**
+
+- What is the difference between an attribute selection and a spatial
+  selection?
+- Why can a join fail even when two tables appear to contain the same
+  names?
+- Why should a CRS be checked before measuring distance or area?
+- What does interoperability mean in a GIS workflow?
+
+## Spatial analysis and geoprocessing using QGIS and PostGIS
+
+**Learning outcomes**
+
+Students should be able to:
+
+- Translate a campus question into a suitable spatial operation.
+- Run area, buffer, clip, intersection, dissolve, distance and spatial
+  join operations in QGIS Processing.
+- Run or interpret selected equivalent PostGIS spatial SQL functions.
+- Check units, CRS, geometry validity and the reasonableness of outputs.
+- Explain what a spatial result means and what it does not establish.
+
+**Core operations and campus questions**
+
+| Operation | Campus question | QGIS tool or method | PostGIS equivalent |
+|---|---|---|---|
+| Area | What is each building's footprint area? | Field Calculator / `$area` with suitable CRS | `ST_Area` |
+| Buffer | Which buildings are within 100 m of a road? | Buffer, then Select by Location | `ST_Buffer`, `ST_Intersects` |
+| Clip | Which features fall inside the campus boundary? | Clip | `ST_Intersection` or spatial filter |
+| Intersection | Which buildings overlap a study zone? | Intersection | `ST_Intersection` |
+| Spatial join | Which facility is closest to or within a building/zone? | Join attributes by location | `ST_Intersects`, `ST_DWithin` |
+| Distance | What is the straight-line distance between selected points? | Distance matrix / distance to nearest hub | `ST_Distance` |
+| Dissolve | What is the combined area of a set of zones? | Dissolve | `ST_Union` / `ST_UnaryUnion` |
+
+**Tutor-led activities**
+
+1. Discuss a geographical question and identify the input layers,
+   operation, parameters and expected output.
+2. Demonstrate calculating building area. Confirm that the layer uses
+   an appropriate projected CRS with metre units before interpreting
+   area in square metres.
+3. Buffer a selected campus road by a stated distance, then select
+   buildings intersecting the buffer.
+4. Clip a facilities layer to the campus boundary.
+5. Run a spatial join to associate facilities with a campus zone.
+6. Compare one QGIS result with a tutor-prepared PostGIS query. Explain
+   the purpose of functions such as `ST_Area`, `ST_Buffer`,
+   `ST_Intersects` and `ST_DWithin` without requiring advanced SQL.
+7. Inspect outputs for invalid geometries, unexpected counts, units and
+   misleading interpretations.
+
+**Example PostGIS query**
+
+```{sql}
+SELECT
+    building_id,
+    name,
+    ST_Area(geom) AS area_square_units
+FROM campus.buildings;
+```
+
+The result is only interpretable as square metres if the geometry is in
+a suitable projected CRS measured in metres. The tutor must verify the
+actual campus CRS and field names before class.
+
+**Guided exercise**
+
+Students complete two QGIS analyses from a supplied set of campus
+questions, record parameters and export outputs to the group's approved
+GeoPackage. They compare one result with the tutor's PostGIS query or
+result table.
+
+**Assingment**
+
+Each group selects two questions relevant to campus users, completes the
+analysis, and writes a short interpretation including limitations. For
+example, proximity to a road does not prove that a building entrance is
+accessible from that road.
+
+**Expected output**
+
+- Two QGIS Processing outputs.
+- A processing record showing input layers, CRS, parameters and output.
+- One comparison with an equivalent PostGIS spatial query.
+- A short geographical interpretation and limitations statement.
+
+**Reflection questions**
+
+- Why does a buffer distance depend on the coordinate system and units?
+- Does a straight-line distance represent walking distance?
+- How can a spatial operation produce a valid output that is still
+  misleading for the question being asked?
+
+## Relational database concepts and spatial database design
+
+**Learning outcomes**
+
+Students should be able to:
+
+-   Explain the purpose of a database.
+-   Distinguish a database from a spreadsheet.
+-   Identify entities, attributes and records.
+-   Explain primary and foreign keys.
+-   Identify one-to-many relationships.
+-   Design a simple Entity Relationship Diagram.
+
+**Concepts**
+
+-   Database and Database Management System.
+-   Tables, records and fields.
+-   Primary keys.
+-   Foreign keys.
+-   Entity relationships.
+-   Data redundancy.
+-   Relational database design.
+-   Spatial and non-spatial tables.
+
+**Campus database exercise**
+
+Propose the following entities:
+
+  Entity        Example attributes
+  ------------- --------------------------------------------
+  Buildings     building_id, name, category
+  Faculties     faculty_id, faculty_name
+  Departments   department_id, department_name, faculty_id
+  Facilities    facility_id, name, category
+  Roads         road_id, name, road_type
+
+Discuss how a faculty may contain several departments and how a building
+may accommodate multiple departments.
+
+Where necessary, introduce a linking table rather than placing repeated
+department information in a building record.
+
+**Practical activities**
+
+1.  Identify entities from the campus scenario.
+2.  Identify attributes for each entity.
+3.  Select primary keys.
+4.  Identify foreign keys.
+5.  Draw relationships.
+6.  Prepare a simple ERD using Google Drawings or a diagram in Google
+    Docs.
+7.  Review the ERD for duplicated information and missing relationships.
+
+**Assingment**
+
+Each group develops an ERD for its campus application and explains the
+relationships to the tutor.
+
+**Expected output**
+
+A documented campus database design.
+
+**Reflection questions**
+
+-   Why should each building have a unique identifier?
+-   Why is a foreign key useful?
+-   What problems arise when the same faculty name is repeatedly entered
+    into many records?
+
+## PostgreSQL, PostGIS and introductory SQL
+
+**Learning outcomes**
+
+Students should be able to:
+
+-   Explain the purpose of PostgreSQL and PostGIS.
+-   Create or connect to a database.
+-   Enable PostGIS where permitted.
+-   Create a simple table.
+-   Import spatial data.
+-   Execute basic SQL queries.
+-   Connect QGIS to a PostGIS database.
+
+**Concepts**
+
+-   Database server and database.
+-   Schema and table.
+-   SQL statements.
+-   Data types.
+-   Primary and foreign keys.
+-   PostGIS geometry.
+-   Spatial reference identifier.
+-   Basic spatial functions.
+
+**Basic SQL examples**
+
+Create a simple table:
+
+``` {sql}
+CREATE TABLE buildings (
+    building_id INTEGER PRIMARY KEY,
+    building_name VARCHAR(100),
+    building_type VARCHAR(50),
+    floors INTEGER
+);
+```
+
+Retrieve all records:
+
+``` {sql}
+SELECT *
+FROM buildings;
+```
+
+Retrieve academic buildings:
+
+``` {sql}
+SELECT building_name
+FROM buildings
+WHERE building_type = 'Academic';
+```
+
+Count buildings:
+
+``` {sql}
+SELECT COUNT(*)
+FROM buildings;
+```
+
+Calculate polygon area once the spatial geometry has been imported:
+
+``` {sql}
+SELECT
+    building_name,
+    ST_Area(geom) AS area
+FROM buildings;
+```
+
+The area units depend on the geometry's coordinate reference system. Use an appropriate projected CRS or an
+explicitly chosen geography calculation.
+
+**Practical activities**
+
+1.  Open pgAdmin or the provider's SQL editor.
+2.  Connect to the assigned database.
+3.  Inspect the database and schema.
+4.  Execute basic SQL queries.
+5.  Import a campus spatial layer using QGIS.
+6.  Inspect the spatial table.
+7.  Connect QGIS to PostGIS.
+8.  Display the database layer in QGIS.
+
+**Assingment**
+
+Each group should demonstrate that its campus buildings are stored in
+PostGIS, retrieve selected records using SQL and display the spatial
+table in QGIS.
+
+**Expected output**
+
+A working campus PostGIS database, a set of introductory SQL queries and
+a QGIS connection.
+
+**Reflection questions**
+
+-   What is the difference between PostgreSQL and PostGIS?
+-   Why should a spatial database use a geometry column?
+-   What is the difference between an attribute query and a spatial
+    query?
+
+## Connecting Python to PostgreSQL/PostGIS
+**Learning outcomes**
+
+Students should be able to:
+
+- Explain how a Python program establishes a database connection.
+- Identify the purpose of host, port, database, username and password.
+- Execute a simple SQL query from Python using a database driver.
+- Read and display returned records.
+- Protect credentials and distinguish a read-only query from an edit.
+
+**Concepts**
+
+- Database connection and connection parameters.
+- Database driver (`psycopg`).
+- SQL query execution and returned rows.
+- Error handling and closing a connection.
+- Credentials, environment variables and least-privilege access.
+
+**Demonstration**
+
+Use a tutor-controlled read-only account and a small query. The tutor
+should supply connection values privately; never place a real password
+in a script committed to GitHub. The following is a teaching pattern,
+not a working connection string:
+
+```python
+import psycopg
+
+connection = psycopg.connect(
+    host="HOST_FROM_TUTOR",
+    port=5432,
+    dbname="DATABASE_NAME",
+    user="READ_ONLY_USER",
+    password="PASSWORD_SUPPLIED_PRIVATELY"
+)
+
+try:
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT building_id, name FROM campus.buildings LIMIT 10;"
+        )
+        for row in cursor.fetchall():
+            print(row)
+finally:
+    connection.close()
+```
+
+Explain each step: import the driver, connect, create a cursor, execute
+SQL, fetch rows and close the connection. If the class cannot install
+or connect the driver reliably, the tutor can demonstrate the script
+while students practise the equivalent query in pgAdmin and QGIS. The
+course does not require students to build a backend server.
+
+**Guided exercise**
+
+1. Open the tutor's sample script in VS Code.
+2. Identify the connection parameters without exposing the password.
+3. Run a read-only query against the prepared database.
+4. Change the selected fields and the `LIMIT` value.
+5. Compare the result with the same query in pgAdmin.
+6. Explain why the result is a table of records and why geometry-aware
+   operations are more naturally performed in QGIS or PostGIS.
+
+**Assingment**
+
+Each group prepares one Python script that retrieves a small set of
+building attributes from PostGIS. The group documents the query and
+explains how QGIS, SQL and Python can access the same authoritative
+dataset using different interfaces.
+
+**Expected output**
+
+A simple Python database-reading script, a saved SQL query and a short
+explanation of the data flow. No Pandas or GeoPandas dependency is
+required.
+
+**Reflection questions**
+
+- What is the difference between connecting to a database and opening a
+  local GeoPackage?
+- Why should a read-only database role be used for a demonstration?
+- Why must credentials be kept out of source code repositories?
+
+## Interactive 2D campus mapping with Python and Folium
+
+**Learning outcomes**
+
+Students should be able to:
+
+-   Explain the basic concept of web GIS.
+-   Explain the role of HTML, JavaScript and browser mapping libraries
+    at an introductory level.
+-   Understand that Folium uses Leaflet to render interactive maps.
+-   Create a map using Python.
+-   Add campus features and pop-ups.
+-   Display building entrance points separately from building footprints.
+-   Add basic layer controls.
+
+**Why Folium?**
+
+Folium provides a Python interface for creating interactive maps that
+are rendered using Leaflet in a web browser. This allows students to
+focus on Python while learning how interactive web mapping works. They
+do not need to build a JavaScript application.
+
+**Concepts**
+
+-   Web GIS.
+-   Browser-based map.
+-   HTML page structure.
+-   JavaScript's role in browser interaction.
+-   Folium map object.
+-   Markers and pop-ups.
+-   GeoJSON layers.
+-   Layer control.
+-   Map output as HTML.
+
+**Demonstration**
+
+``` {python}
+import folium
+
+campus_map = folium.Map(
+    location=[6.5195488, 3.3987876],
+    zoom_start=16
+)
+
+folium.Marker(
+    location=[6.5195488, 3.3987876],
+    popup="Senate Building,University of Lagos"
+).add_to(campus_map)
+
+campus_map.save("campus_map.html")
+```
+
+**Guided exercises**
+
+1.  Create a Folium map.
+2.  Change the centre and zoom level.
+3.  Add a marker.
+4.  Add a pop-up.
+5.  Save the map as an HTML file.
+6.  Open the output in a browser.
+7.  Explain the relationship between the Python script and the generated
+    HTML map.
+
+**Assingment**
+
+Each student creates an initial interactive campus map with at least one
+campus feature layer and a title.
+
+**Expected output**
+
+A working Folium-generated campus map.
+
+**Reflection questions**
+
+-   What does Folium generate?
+-   Why does a Python map open in a web browser?
+-   What role does Leaflet play?
+
+## Integrating, testing and presenting the 2D Virtual Campus
+**Learning outcomes**
+
+Students should be able to:
+
+-   Integrate the approved campus datasets.
+-   Add multiple feature layers to the map.
+-   Display feature information.
+-   Add a basic search or filtering function where achievable.
+-   Test the map and its data.
+-   Explain the complete workflow from data acquisition to application
+    output.
+
+**Practical activities**
+
+1.  Retrieve the approved datasets.
+2.  Add building, building-entrance, road and facility layers.
+3.  Add feature pop-ups that show building information and identify
+    available entrances. Link entrance records to their parent building
+    using `building_id`.
+4.  Style features by category.
+5.  Add layer controls.
+6.  Add a basic building search or filtered building list.
+7.  Check coordinate accuracy and attribute completeness.
+8.  Test the application in a browser.
+9.  Prepare the technical report and presentation.
+
+**Assingment**
+
+Each group demonstrates the final application using a set of user tasks:
+
+-   Locate a named campus building.
+-   Identify the appropriate public entrance for that building.
+-   View its information.
+-   Display roads and facilities.
+-   Switch between layers.
+-   Explain the source and quality of the data.
+-   Explain how the spatial database and Python scripts contributed to
+    the application.
+
+**Expected output**
+
+A completed 2D Interactive University of Lagos Virtual Campus, source
+files, database backup, spatial datasets and technical report.
+
+# Final project assessment
+
+The final project shall assess both the quality of the group
+application and the competence of individual students.
+
+Suggested continuous assessment allocation:
+
+  Component                                            Marks
+  ------------------------------------------------- --------
+  Individual Python exercises                              8
+  Spatial data acquisition and quality assessment          5
+  Database design and SQL exercises                        7
+  Python geoprocessing exercise                            5
+  Final 2D campus application                              12
+  Individual technical demonstration                       3
+  **Total**                                              **40**
+
+## Final application assessment
+
+  Criterion                                            Marks
+  -------------------------------------------------- -------
+  Accuracy and completeness of campus spatial data         3
+  Database structure and use of spatial data               2
+  Application functionality and interactive map            5
+  Search, layer control and feature information            2
+  Documentation and presentation                           3
+  **Total**                                              **15**
+
+The individual technical demonstration should require each student to
+explain at least one Python concept, one spatial data or database
+decision, and one component of the group application.
+
+
+# Reference documentation
+
+The following official documentation will be used in the course:
+
+-   [QGIS documentation: supported data
+    formats](https://docs.qgis.org/3.44/en/docs/user_manual/managing_data_source/supported_data.html)
+-   [PostGIS documentation](https://postgis.net/documentation/)
+-   [Supabase: PostGIS
+    extension](https://supabase.com/docs/guides/database/extensions/postgis)
+-   [Python documentation](https://docs.python.org/3/)
+-   [Folium
+    documentation](https://python-visualization.github.io/folium/latest/)
+-   [GitHub documentation](https://docs.github.com/)
+-   [SQLite: Appropriate Uses For SQLite](https://www.sqlite.org/whentouse.html) — guidance on local file databases, network filesystems and concurrent writers.
+-   [Supabase: PostGIS extension](https://supabase.com/docs/guides/database/extensions/postgis) — enabling PostGIS in a managed PostgreSQL project.
+
+# Recommended Book
+[Real Python](https://soclibrary.futa.edu.ng/books/Python%20Basics%20A%20Practical%20Introduction%20to%20Python%203%20by%20David%20Amos,%20Dan%20Bader,%20Joanna%20Jablonski,%20Fletcher%20Heisler%20(z-lib.org).pdf)
+
+
+<script>
+  function openFullscreen(elem) {
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+      elem.msRequestFullscreen();
+    }
+  }
+</script>
