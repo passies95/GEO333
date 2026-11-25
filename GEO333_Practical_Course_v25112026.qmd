@@ -247,7 +247,7 @@ print(building_type)
 
 ## Python syntax reference
 
-The following python structures and examples are used throughout Weeks 2–4. Students should be able to identify and explain them.
+The following python structures and examples are used throughout. Students should be able to identify and explain them.
 
 | Structure | Meaning | Example |
 |---|---|---|
@@ -363,7 +363,7 @@ and functions.
 
 During this week Students need to understand the structure and quality of tabular data and prepare a clean CSV file for use in QGIS. QGIS will be the main environment for joining, filtering, summarising and analysing the data in subsequent weeks. Other Python libraries such as Pandas and GeoPandas, R packages and database tools that can perform similar tasks outside a desktop GIS will be mentioned, but students will not be required to learn those additional toolkits in this practical.
 
-**Learning outcomes**
+## Learning outcomes
 
 Students should be able to:
 
@@ -375,7 +375,7 @@ Students should be able to:
 - Explain how the cleaned CSV will be imported into QGIS and joined to
   spatial features using a common key.
 
-**Concepts**
+## Concepts
 
 - Records, fields, rows and columns.
 - CSV delimiters, headers, quotation marks and character encoding.
@@ -384,7 +384,7 @@ Students should be able to:
 - Data dictionary and provenance.
 - Difference between cleaning a table and spatial analysis.
 
-**Tutor-led demonstration**
+## Tutor-led demonstration
 
 1. Open a supplied `campus_departments_raw.csv` in Google Sheets or a
    spreadsheet application.
@@ -401,7 +401,7 @@ Students should be able to:
 7. Save as CSV UTF-8 and reopen the saved file to check that columns and
    special characters remain intact.
 
-**Guided exercise**
+## Guided exercise
 
 Students receive a deliberately imperfect table containing department
 names, faculty codes and building identifiers. They prepare a cleaned
@@ -491,19 +491,6 @@ fields.
 
 ## GIS data management and processing across QGIS and PostGIS
 
-**Purpose and scope**
-
-QGIS and PostGIS are the principal tools. Students should see that
-filtering, selecting, reprojection, joining, validation and exporting
-are not isolated to one software package: GIS applications and
-programming/database environments implement many of the same established
-spatial concepts and operations. The aim is to understand the method and
-its inputs/outputs, not to learn another library. GeoPandas may be shown
-briefly by the tutor as an example of doing similar work from Python,
-but it is not a required student tool or assessment requirement.
-
-**Learning outcomes**
-
 Students should be able to:
 
 - Open and inspect the approved GeoPackage in QGIS.
@@ -516,7 +503,7 @@ Students should be able to:
 - Recognise that comparable operations can be carried out through SQL
   or Python libraries without needing to learn those toolkits now.
 
-**Concepts**
+## Concepts
 
 - Layer, feature, geometry and attribute table.
 - Attribute query versus spatial query.
@@ -527,7 +514,7 @@ Students should be able to:
 - PostGIS as a spatial database extension to PostgreSQL.
 - Interoperability: equivalent concepts and data formats across tools.
 
-**Tutor-led activities**
+## Tutor-led activities
 
 1. Open the master GeoPackage in QGIS and inspect the layer properties.
 2. Open the attribute table; identify feature count, fields and data
@@ -550,7 +537,7 @@ Students should be able to:
    filtering. Explain that this is an alternative workflow, not another
    core course stack.
 
-**Guided exercise**
+## Guided exercise
 
 Students filter the buildings layer, join the cleaned table, identify
 records with no matching join key, and export a checked result. They
@@ -564,7 +551,7 @@ attributes, joins available department information, and imports the
 approved layer into the group's PostGIS schema (or follows the tutor's
 shared demonstration where individual access is not available).
 
-**Expected output**
+## Expected output
 
 - QGIS project with the relevant layers and joins.
 - Checked GeoPackage export.
@@ -634,7 +621,7 @@ FROM campus.buildings;
 ```
 
 The result is only interpretable as square metres if the geometry is in
-a suitable projected CRS measured in metres. The tutor must verify the
+a suitable projected CRS measured in metres. Verify the
 actual campus CRS and field names before class.
 
 **Guided exercise**
@@ -854,10 +841,9 @@ Students should be able to:
 - Error handling and closing a connection.
 - Credentials, environment variables and least-privilege access.
 
-**Demonstration**
+## Demonstration
 
-Use a tutor-controlled read-only account and a small query. The tutor
-should supply connection values privately; never place a real password
+Never place a real password
 in a script committed to GitHub. The following is a teaching pattern,
 not a working connection string:
 
